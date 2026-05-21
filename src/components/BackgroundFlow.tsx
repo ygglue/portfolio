@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
+import LiquidBackground from "./LiquidBackground";
 
 export default function BackgroundFlow() {
   return (
@@ -18,25 +18,8 @@ export default function BackgroundFlow() {
         </filter>
       </svg>
 
-      {/* 2. The Spectral Blobs (The "Lume") */}
-      <div className="absolute inset-0 z-10 filter blur-[100px]">
-        <motion.div
-          animate={{
-            x: ["-10%", "20%", "-10%"],
-            y: ["-10%", "10%", "-10%"],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute w-[60%] h-[60%] bg-white/20 rounded-full mix-blend-screen"
-        />
-        <motion.div
-          animate={{
-            x: ["20%", "-10%", "20%"],
-            y: ["10%", "-20%", "10%"],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute right-0 w-[50%] h-[50%] bg-white/10 rounded-full mix-blend-screen"
-        />
-      </div>
+      {/* 2. Liquid Mist Background */}
+      <LiquidBackground />
 
       {/* 3. The Animated Grain Overlay (The "Spectral" feel) */}
       <motion.div 
