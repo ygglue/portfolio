@@ -29,7 +29,9 @@ interface Project {
 
 ### `ProjectCard.tsx` — TUI terminal card
 
-Terminal box-drawing card with this layout:
+Visual-only terminal aesthetic — behaves as a normal card (clickable link, hover states). Uses box-drawing characters for styling only, not an interactive terminal emulator.
+
+Layout:
 
 ```
 ┌── project-name ───────────────────────┐
@@ -42,7 +44,8 @@ Terminal box-drawing card with this layout:
 - Monospaced font (inherited)
 - Box-drawing characters: `┌── ──┐ │ └─ └── ──┘`
 - Tags in `[brackets]`, GitHub link with `└─` prefix
-- Subtle hover effect (brightness/opacity shift)
+- Normal card hover effect (brightness/opacity shift, cursor pointer)
+- The entire card is wrapped in a link to the GitHub URL
 
 ## Integration
 
