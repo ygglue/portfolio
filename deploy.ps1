@@ -1,4 +1,5 @@
 # GitHub Pages deploy script for Next.js static export
+# Handles SPA routing via trailing-slash redirect in 404.html
 
 param(
     [string]$Message = "deploy: update portfolio"
@@ -12,10 +13,11 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-Write-Host "Configuring SPA fallback..." -ForegroundColor Cyan
-# Copy the 404 page as index.html for SPA routing fallback
-# GitHub Pages serves 404.html for unknown routes; this script can be extended
-# to handle the SPA redirect if needed.
+Write-Host "Configuring SPA fallback (trailing-slash redirect)..." -ForegroundColor Cyan
+$redirectScript = "<script>(function(){var p=location.pathname;if(p!=='/portfolio/'&&p!=='/'&&!p.endsWith('/')){location.href=p+'/'+location.search;}})();</script>"
+$content = Get-Content -Path "out\404.html" -Raw
+$newContent = $content -replace '<head>', "<head>`n  $redirectScript"
+Set-Content -Path "out\404.html" -Value $newContent
 
 Write-Host "Deploying to gh-pages branch..." -ForegroundColor Cyan
 npx gh-pages -d out -m "$Message"
