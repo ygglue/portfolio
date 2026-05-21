@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import LiquidBackground from "./LiquidBackground";
 
 export default function BackgroundFlow() {
-  const [isDesktop] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.innerWidth >= 1024;
-  });
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    setIsDesktop(window.innerWidth >= 1024);
+  }, []);
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-black">
