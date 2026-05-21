@@ -27,6 +27,12 @@ export default function Home() {
   }, [phase]);
 
   useEffect(() => {
+    if (phase !== "header") return;
+    const timer = setTimeout(() => setPhase("content"), 500);
+    return () => clearTimeout(timer);
+  }, [phase]);
+
+  useEffect(() => {
     if (phase !== "content") return;
     let i = 0;
     const interval = setInterval(() => {
@@ -102,15 +108,7 @@ export default function Home() {
         )}
       </div>
 
-      {/* Decorative Technical Detail */}
-      <div className="mt-auto pt-24 hidden lg:block">
-        <div className="text-[8px] opacity-20 font-mono grid grid-cols-4 gap-4">
-          <div>MEMORY_LOAD: 24%</div>
-          <div>CPU_THREAD: 0x4F2A</div>
-          <div>NETWORK_SYNC: VERIFIED</div>
-          <div>SESSION_ID: 0091-AX-99</div>
-        </div>
-      </div>
+
     </div>
   );
 }

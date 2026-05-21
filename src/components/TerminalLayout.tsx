@@ -84,20 +84,27 @@ export default function TerminalLayout({
           {children}
         </main>
 
-        <footer className="flex justify-between items-center px-4 py-2 border-t border-white/10 text-[10px] opacity-40 uppercase tracking-widest z-10">
-          <div>© 2026_EST_CORE</div>
-          <div className="flex gap-4">
-            {prev && (
-              <Link href={prev} className="hover:opacity-70 transition-opacity">
-                ← {chapters[prev].chapter}_{chapters[prev].title}
-              </Link>
-            )}
-            {next && (
-              <Link href={next} className="hover:opacity-70 transition-opacity">
-                {chapters[next].chapter}_{chapters[next].title} →
-              </Link>
-            )}
-          </div>
+        <footer className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-2 border-t border-white/10 text-[8px] md:text-[10px] opacity-40 uppercase tracking-widest z-10">
+          <span>© 2026_EST_CORE</span>
+          <span className="hidden sm:inline opacity-30">|</span>
+          <span>MEMORY_LOAD: 24%</span>
+          <span className="hidden sm:inline opacity-30">|</span>
+          <span>CPU_THREAD: 0x4F2A</span>
+          <span className="hidden sm:inline opacity-30">|</span>
+          <span>NETWORK_SYNC: VERIFIED</span>
+          <span className="hidden sm:inline opacity-30">|</span>
+          <span>SESSION_ID: 0091-AX-99</span>
+          <span className="flex-1" />
+          {prev && (
+            <Link href={prev} className="hover:opacity-70 transition-opacity">
+              ← {chapters[prev].chapter}_{chapters[prev].title}
+            </Link>
+          )}
+          {next && (
+            <Link href={next} className="hover:opacity-70 transition-opacity">
+              {chapters[next].chapter}_{chapters[next].title} →
+            </Link>
+          )}
         </footer>
 
         <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.015] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
