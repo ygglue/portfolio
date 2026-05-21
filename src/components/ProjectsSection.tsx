@@ -11,51 +11,64 @@ const COMMAND = "$ ls projects/";
 export default function ProjectsSection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: false, amount: 0.3 });
-  const [typed, setTyped] = useState("");
-  const [showCards, setShowCards] = useState(false);
+  const [phase, setPhase] = useState<"idle" | "command" | "header" | "content">("idle");
+  const [commandText, setCommandText] = useState("");
 
   useEffect(() => {
     if (!isInView) {
-      setTyped("");
-      setShowCards(false);
+      setPhase("idle");
+      setCommandText("");
       return;
     }
 
-    let i = 0;
-    setTyped("");
-    setShowCards(false);
+    if (phase !== "idle") return;
+    setCommandText("");
+    setPhase("command");
+  }, [isInView, phase]);
 
+  useEffect(() => {
+    if (phase !== "command") return;
+    let i = 0;
     const interval = setInterval(() => {
       i++;
-      setTyped(COMMAND.slice(0, i));
+      setCommandText(COMMAND.slice(0, i));
       if (i >= COMMAND.length) {
         clearInterval(interval);
-        setTimeout(() => setShowCards(true), 200);
+        setTimeout(() => setPhase("header"), 300);
       }
     }, 50);
-
     return () => clearInterval(interval);
-  }, [isInView]);
+  }, [phase]);
+
+  useEffect(() => {
+    if (phase !== "header") return;
+    const timer = setTimeout(() => setPhase("content"), 500);
+    return () => clearTimeout(timer);
+  }, [phase]);
 
   return (
-    <section ref={ref} className="py-24 md:py-32">
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="mb-8 text-[10px] md:text-xs opacity-40 tracking-[0.3em] uppercase"
-      >
-        [ 01_PROJECTS ]
-      </motion.div>
-
-      <div className="font-mono text-sm md:text-base mb-8">
-        {typed}
-        {typed.length < COMMAND.length && typed.length > 0 && (
+    <section ref={ref}>
+      {/* Terminal command */}
+      <div className="font-mono text-sm md:text-base mb-6">
+        {commandText}
+        {phase === "command" && (
           <span className="inline-block w-[2px] h-[1em] bg-white ml-1 animate-pulse align-middle" />
         )}
       </div>
 
-      {showCards && (
+      {phase !== "idle" && phase !== "command" && (
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+        >
+          <div className="mb-8 text-[10px] md:text-xs opacity-40 tracking-[0.3em] uppercase">
+            [ 01_PROJECTS ]
+          </div>
+        </motion.div>
+      )}
+
+      {phase === "content" && (
         <motion.div
           initial="hidden"
           animate="visible"
