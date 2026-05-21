@@ -14,7 +14,7 @@ export const projects: Project[] = [
       "This school project introduces a smart scheduling app designed to integrate academic timetables with real-time weather forecasts.",
     techTags: ["Python", "Django", "HTML", "JavaScript", "CSS"],
     githubUrl: "https://github.com/ygglue/SchedulAir",
-    screenshot: "screenshots/schedulair.webp",
+    screenshot: "/screenshots/schedulair.webp",
   },
   {
     name: "CODENAME:SCHOLARMS",
@@ -23,7 +23,7 @@ export const projects: Project[] = [
     techTags: ["Rust", "Python", "Flask", "HTML", "CSS", "TypeScript"],
     githubUrl: "PRIVATE",
     clickable: false,
-    screenshot: "screenshots/scholarms.webp",
+    screenshot: "/screenshots/scholarms.webp",
   },
   {
     name: "CODENAME:VGEN",
@@ -32,7 +32,7 @@ export const projects: Project[] = [
     techTags: ["Python", "Django", "HTML", "CSS", "JavaScript"],
     githubUrl: "PRIVATE",
     clickable: false,
-    screenshot: "screenshots/vgen.webp",
+    screenshot: "/screenshots/vgen.webp",
   },
   {
     name: "███████████",
