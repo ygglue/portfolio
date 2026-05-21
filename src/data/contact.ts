@@ -21,7 +21,7 @@ export const contactLinks: ContactLink[] = [
   {
     label: "facebook",
     icon: "facebook",
-    value: "facebook.com/eliyahu.lagumbay",
+    value: "eliyahu.lagumbay",
     href: "https://facebook.com/eliyahu.lagumbay",
   },
 ];

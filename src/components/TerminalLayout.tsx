@@ -9,13 +9,13 @@ import CommandInput from "./CommandInput";
 
 const chapters: Record<string, { chapter: string; title: string }> = {
   "/": { chapter: "00", title: "SYSTEM_INDEX" },
-  "/projects": { chapter: "01", title: "PROJECTS" },
-  "/skills": { chapter: "02", title: "SKILLS" },
-  "/contact": { chapter: "03", title: "CONTACT" },
-  "/help": { chapter: "??", title: "MANUAL" },
+  "/projects/": { chapter: "01", title: "PROJECTS" },
+  "/skills/": { chapter: "02", title: "SKILLS" },
+  "/contact/": { chapter: "03", title: "CONTACT" },
+  "/help/": { chapter: "??", title: "MANUAL" },
 };
 
-const chapterOrder = ["/", "/projects", "/skills", "/contact"];
+  const chapterOrder = ["/", "/projects/", "/skills/", "/contact/"];
 
 export default function TerminalLayout({
   children,
