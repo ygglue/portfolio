@@ -20,6 +20,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 
       {/* Screenshot area */}
       {project.screenshot ? (
+        /* eslint-disable-next-line @next/next/no-img-element */
         <img
           src={project.screenshot}
           alt={project.name}

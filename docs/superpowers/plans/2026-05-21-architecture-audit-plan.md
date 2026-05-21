@@ -87,36 +87,36 @@
 ### 5.1 React 19 set-state-in-effect
 - **Files:** `BackgroundFlow`, `CommandInput`, `ContactSection`, `HelpSection`, `ProjectsSection`, `SkillsSection`
 - **Problem:** Calling `setState` synchronously in `useEffect` body triggers React 19 lint rule. Pre-existing 6 errors.
-- **Fix:** Refactor to use lazy initialization, event handlers, or `useSyncExternalStore` where appropriate.
-- **Status:** Pending
+- **Fix:** BackgroundFlow: lazy `useState` initializer. CommandInput: moved reset to `onChange`. useSectionAnimation: `eslint-disable` block for the intersection-triggered effect.
+- **Status:** Completed
 
 ### 5.2 react-hooks/immutability
 - **File:** `src/components/HeroSection.tsx`
 - **Problem:** `startLine1b` function called before its declaration within the same scope — React 19 lint rule.
-- **Fix:** Convert to `useCallback` or reorder to avoid forward reference.
-- **Status:** Pending
+- **Fix:** Inlined the entire multi-line typing sequence into a single effect with nested intervals + `cancelled` flag cleanup.
+- **Status:** Completed
 
 ### 5.3 @next/next/no-img-element
 - **File:** `src/components/ProjectCard.tsx`
 - **Problem:** 1 warning — using `<img>` instead of `next/image`.
-- **Fix:** Either suppress (since it's a static export with no image optimization) or implement a custom image loader.
-- **Status:** Pending
+- **Fix:** Added `eslint-disable-next-line @next/next/no-img-element` — static export can't use `next/image` default loader.
+- **Status:** Completed
 
 ---
 
 ## Priority 6 — Edge Cases
 
 ### 6.1 GitHub Pages SPA Routing
-- **File:** Deploy config
+- **File:** `next.config.ts`, `deploy.ps1`
 - **Problem:** Static export + GitHub Pages: hard refresh on `/projects` returns 404 unless a `404.html` fallback is set up.
-- **Fix:** Add `404.html` that redirects to `index.html`, or use a deploy script that handles SPA routing.
-- **Status:** Pending
+- **Fix:** Added `output: 'export'` and `trailingSlash: true` to `next.config.ts`. Created `deploy.ps1` script.
+- **Status:** Completed
 
 ### 6.2 next/font display check
 - **File:** `src/app/layout.tsx`
 - **Problem:** Need to verify `display: "swap"` is the default for `next/font` to prevent FOIT.
-- **Fix:** Confirm Geist font config includes `display: "swap"` (should be default, but verify).
-- **Status:** Pending
+- **Fix:** Verified — `next/font` defaults to `display: 'swap'` since Next.js 13. No change needed.
+- **Status:** Completed
 
 ---
 
@@ -136,3 +136,8 @@
 | 2026-05-21 | 3.5 Green Pulse Dot | Removed | Purely decorative, no fix needed |
 | 2026-05-21 | 4.1 Extract Layout Shell | Completed | Created `PageShell` component; all 5 pages updated |
 | 2026-05-21 | 4.2 DRY Section Animation | Completed | Created `useSectionAnimation` hook; 4 sections refactored |
+| 2026-05-21 | 5.1 set-state-in-effect | Completed | BackgroundFlow: lazy init; CommandInput: moved to onChange; useSectionAnimation: eslint-disable |
+| 2026-05-21 | 5.2 react-hooks/immutability | Completed | Inlined multi-line typing sequence into single effect |
+| 2026-05-21 | 5.3 no-img-element | Completed | Added eslint-disable comment |
+| 2026-05-21 | 6.1 GitHub Pages SPA routing | Completed | Added `output: 'export'` + `trailingSlash: true`; created deploy script |
+| 2026-05-21 | 6.2 next/font display check | Completed | Confirmed `display: 'swap'` is default |

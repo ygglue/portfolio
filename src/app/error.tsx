@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import { useSectionAnimation } from "@/hooks/useSectionAnimation";
 
@@ -81,13 +82,13 @@ export default function Error({
                   $ retry
                   <span className="inline-block w-[2px] h-[1.1em] bg-white/80 animate-blink align-middle shadow-[0_0_6px_rgba(255,255,255,0.6)]" />
                 </button>
-                <a
+                <Link
                   href="/"
                   className="text-white/60 hover:text-white transition-colors inline-flex items-center gap-2"
                 >
                   $ cd ~/system_index
                   <span className="inline-block w-[2px] h-[1.1em] bg-white/80 animate-blink align-middle shadow-[0_0_6px_rgba(255,255,255,0.6)]" />
-                </a>
+                </Link>
               </div>
             </motion.div>
           </motion.div>

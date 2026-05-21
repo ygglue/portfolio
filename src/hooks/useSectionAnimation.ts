@@ -4,11 +4,13 @@ import { useInView } from "framer-motion";
 export type SectionPhase = "idle" | "command" | "header" | "content";
 
 export function useSectionAnimation(commandString: string) {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: false, amount: 0.3 });
   const [phase, setPhase] = useState<SectionPhase>("idle");
   const [commandText, setCommandText] = useState("");
 
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: false, amount: 0.3 });
+
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (!isInView) {
       setPhase("idle");
@@ -19,6 +21,7 @@ export function useSectionAnimation(commandString: string) {
     setCommandText("");
     setPhase("command");
   }, [isInView, phase]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   useEffect(() => {
     if (phase !== "command") return;

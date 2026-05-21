@@ -44,41 +44,45 @@ export default function HeroSection() {
 
   useEffect(() => {
     if (phase !== "content") return;
+    let cancelled = false;
+    const timers: ReturnType<typeof setTimeout>[] = [];
     let i = 0;
-    const interval = setInterval(() => {
+    const typeLine1 = setInterval(() => {
       i++;
       setLine1(LINE_1.slice(0, i));
       if (i >= LINE_1.length) {
-        clearInterval(interval);
-        setTimeout(startLine1b, 300);
+        clearInterval(typeLine1);
+        timers.push(setTimeout(() => {
+          if (cancelled) return;
+          let j = 0;
+          const typeLine1b = setInterval(() => {
+            j++;
+            setLine1b(LINE_1B.slice(0, j));
+            if (j >= LINE_1B.length) {
+              clearInterval(typeLine1b);
+              timers.push(setTimeout(() => {
+                if (cancelled) return;
+                let k = 0;
+                const typeLine2 = setInterval(() => {
+                  k++;
+                  setLine2(LINE_2.slice(0, k));
+                  if (k >= LINE_2.length) {
+                    clearInterval(typeLine2);
+                    timers.push(setTimeout(() => setShowName(true), 200));
+                  }
+                }, 50);
+              }, 300));
+            }
+          }, 50);
+        }, 300));
       }
     }, 50);
-    return () => clearInterval(interval);
+    return () => {
+      cancelled = true;
+      clearInterval(typeLine1);
+      timers.forEach(clearTimeout);
+    };
   }, [phase]);
-
-  function startLine1b() {
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setLine1b(LINE_1B.slice(0, i));
-      if (i >= LINE_1B.length) {
-        clearInterval(interval);
-        setTimeout(startLine2, 300);
-      }
-    }, 50);
-  }
-
-  function startLine2() {
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setLine2(LINE_2.slice(0, i));
-      if (i >= LINE_2.length) {
-        clearInterval(interval);
-        setTimeout(() => setShowName(true), 200);
-      }
-    }, 50);
-  }
 
   const allTyped = showName;
 

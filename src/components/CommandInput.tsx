@@ -23,10 +23,6 @@ export default function CommandInput() {
   const showDropdown = matches.length > 0 && input.trim().length > 0;
 
   useEffect(() => {
-    setSelectedIdx(0);
-  }, [input]);
-
-  useEffect(() => {
     if (feedback) {
       const timer = setTimeout(() => setFeedback(null), 2500);
       return () => clearTimeout(timer);
@@ -99,7 +95,10 @@ export default function CommandInput() {
               ref={inputRef}
               type="text"
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(e) => {
+                setInput(e.target.value);
+                setSelectedIdx(0);
+              }}
               onKeyDown={handleKeyDown}
               className="flex-1 min-w-0 bg-transparent text-zinc-300 placeholder-zinc-600 caret-zinc-300 outline-none border-none ring-0 p-0 [font-variant-ligatures:none] text-base md:text-sm touch-manipulation"
               placeholder="page --help"
