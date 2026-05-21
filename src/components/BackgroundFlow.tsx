@@ -7,9 +7,11 @@ import LiquidBackground from "./LiquidBackground";
 export default function BackgroundFlow() {
   const [isDesktop, setIsDesktop] = useState(false);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 1024);
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-black">
