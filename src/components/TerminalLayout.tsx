@@ -8,9 +8,10 @@ import BackgroundFlow from "./BackgroundFlow";
 const chapters: Record<string, { chapter: string; title: string }> = {
   "/": { chapter: "00", title: "SYSTEM_INDEX" },
   "/projects": { chapter: "01", title: "PROJECTS" },
+  "/skills": { chapter: "02", title: "SKILLS" },
 };
 
-const chapterOrder = ["/", "/projects"];
+const chapterOrder = ["/", "/projects", "/skills"];
 
 export default function TerminalLayout({
   children,

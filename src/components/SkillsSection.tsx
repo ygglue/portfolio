@@ -3,12 +3,24 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import ProjectCard from "./ProjectCard";
-import { projects } from "@/data/projects";
+import { TechIcon } from "./TechIcon";
+import { skillCategories, type SkillStatus } from "@/data/skills";
 
-const COMMAND = "$ cd projects/";
+const COMMAND = "$ cat skills/";
 
-export default function ProjectsSection() {
+const STATUS_STYLES: Record<SkillStatus, string> = {
+  ACTIVE: "text-green-400/80 border-green-400/30",
+  PROFICIENT: "text-zinc-300 border-zinc-500/30",
+  LEARNING: "text-zinc-500 border-zinc-600/20",
+};
+
+const STATUS_LABEL: Record<SkillStatus, string> = {
+  ACTIVE: "ACTIVE",
+  PROFICIENT: "PROF",
+  LEARNING: "LRN",
+};
+
+export default function SkillsSection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: false, amount: 0.3 });
   const [phase, setPhase] = useState<"idle" | "command" | "header" | "content">(
@@ -50,7 +62,6 @@ export default function ProjectsSection() {
 
   return (
     <section ref={ref}>
-      {/* Terminal command */}
       <div className="font-mono text-sm md:text-base mb-6">
         {commandText}
         {phase === "command" && (
@@ -65,7 +76,7 @@ export default function ProjectsSection() {
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <div className="mb-8 text-[10px] md:text-xs opacity-40 tracking-[0.3em] uppercase">
-            [ 01_PROJECTS ]
+            [ 02_SKILLS ]
           </div>
         </motion.div>
       )}
@@ -75,20 +86,40 @@ export default function ProjectsSection() {
           initial="hidden"
           animate="visible"
           variants={{
-            visible: { transition: { staggerChildren: 0.15 } },
+            visible: { transition: { staggerChildren: 0.08 } },
           }}
-          className="space-y-2"
+          className="space-y-8"
         >
-          {projects.map((project) => (
+          {skillCategories.map((category) => (
             <motion.div
-              key={project.name}
+              key={category.name}
               variants={{
                 hidden: { opacity: 0, y: 8 },
                 visible: { opacity: 1, y: 0 },
               }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
-              <ProjectCard project={project} />
+              <div className="text-[10px] md:text-xs tracking-[0.2em] opacity-30 mb-3 uppercase">
+                {category.name}
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                {category.skills.map((skill) => (
+                  <div
+                    key={skill.name}
+                    className="flex items-center gap-2 px-2.5 py-1.5 border border-zinc-800/60"
+                  >
+                    <TechIcon name={skill.icon} size={14} />
+                    <span className="font-mono text-[11px] md:text-xs text-zinc-300 truncate">
+                      {skill.name}
+                    </span>
+                    <span
+                      className={`ml-auto font-mono text-[9px] px-1 border ${STATUS_STYLES[skill.status]}`}
+                    >
+                      {STATUS_LABEL[skill.status]}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </motion.div>
           ))}
         </motion.div>

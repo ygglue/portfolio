@@ -131,10 +131,14 @@ const MIST = {
   distortion: 4 / 50,
   swirl: 0.65,
   swirlIterations: 5,
-  speed: 0.039,
+  speed: 0.0001,
 };
 
-function compileShader(gl: WebGL2RenderingContext, type: number, source: string) {
+function compileShader(
+  gl: WebGL2RenderingContext,
+  type: number,
+  source: string,
+) {
   const shader = gl.createShader(type);
   if (!shader) return null;
   gl.shaderSource(shader, source);
@@ -147,7 +151,11 @@ function compileShader(gl: WebGL2RenderingContext, type: number, source: string)
   return shader;
 }
 
-function createProgram(gl: WebGL2RenderingContext, vsSource: string, fsSource: string) {
+function createProgram(
+  gl: WebGL2RenderingContext,
+  vsSource: string,
+  fsSource: string,
+) {
   const vs = compileShader(gl, gl.VERTEX_SHADER, vsSource);
   const fs = compileShader(gl, gl.FRAGMENT_SHADER, fsSource);
   if (!vs || !fs) {
@@ -191,7 +199,7 @@ export default function LiquidBackground() {
     gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
-      gl.STATIC_DRAW
+      gl.STATIC_DRAW,
     );
     gl.enableVertexAttribArray(posLoc);
     gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
