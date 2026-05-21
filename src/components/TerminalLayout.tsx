@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import BackgroundFlow from "./BackgroundFlow";
 import CommandInput from "./CommandInput";
 
@@ -24,6 +25,7 @@ export default function TerminalLayout({
   const pathname = usePathname();
   const config = chapters[pathname] || { chapter: "00", title: "UNKNOWN" };
   const [time, setTime] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const updateTime = () => {
@@ -83,6 +85,45 @@ export default function TerminalLayout({
             <div className="text-[10px] opacity-50 tabular-nums">{time}</div>
           </nav>
         </header>
+
+        <button
+          onClick={() => setMenuOpen((o) => !o)}
+          className="md:hidden fixed top-12 right-3 z-50 flex flex-col items-center justify-center w-10 h-10 bg-black/80 border border-white/15 backdrop-blur-md rounded-md active:scale-95 transition-transform"
+          aria-label="Toggle menu"
+        >
+          <div className={`w-5 h-[2px] bg-zinc-300 transition-transform duration-200 ${menuOpen ? "translate-y-[5px] rotate-45" : ""}`} />
+          <div className={`h-[2px] bg-zinc-300 transition-all duration-200 mt-[3px] overflow-hidden shrink-0 ${menuOpen ? "w-0 opacity-0" : "w-5 opacity-100"}`} />
+          <div className={`w-5 h-[2px] bg-zinc-300 transition-transform duration-200 mt-[3px] ${menuOpen ? "-translate-y-[5px] -rotate-45" : ""}`} />
+        </button>
+
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -4 }}
+              transition={{ duration: 0.12 }}
+              className="md:hidden fixed top-[88px] right-3 w-48 border border-white/10 bg-black/90 backdrop-blur-md z-50"
+            >
+              <div className="flex flex-col">
+                {chapterOrder.map((p) => (
+                  <Link
+                    key={p}
+                    href={p}
+                    onClick={() => setMenuOpen(false)}
+                    className={`px-4 py-3 text-xs tracking-widest uppercase transition-colors border-b border-white/5 last:border-none ${
+                      p === pathname
+                        ? "text-white bg-white/5"
+                        : "text-zinc-500 hover:text-zinc-300 hover:bg-white/[0.02]"
+                    }`}
+                  >
+                    {chapters[p].chapter}_{chapters[p].title}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <main className="flex-1 overflow-y-auto">
           {children}

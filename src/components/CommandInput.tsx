@@ -101,7 +101,7 @@ export default function CommandInput() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 min-w-0 bg-transparent text-zinc-300 placeholder-zinc-600 caret-zinc-300 outline-none border-none ring-0 p-0 [font-variant-ligatures:none]"
+              className="flex-1 min-w-0 bg-transparent text-zinc-300 placeholder-zinc-600 caret-zinc-300 outline-none border-none ring-0 p-0 [font-variant-ligatures:none] text-base md:text-sm touch-manipulation"
               placeholder="page --help"
               spellCheck={false}
               autoComplete="off"

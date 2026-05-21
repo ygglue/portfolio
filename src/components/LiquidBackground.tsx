@@ -187,6 +187,11 @@ export default function LiquidBackground() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    const isMobile = window.innerWidth < 768 || "ontouchstart" in window;
+    const MAX_FPS = isMobile ? 30 : 60;
+    const frameInterval = 1000 / MAX_FPS;
+    const dprCap = isMobile ? 1.5 : 2;
+
     const gl = canvas.getContext("webgl2", { alpha: true, antialias: false });
     if (!gl) return;
 
@@ -207,7 +212,7 @@ export default function LiquidBackground() {
     const u = (name: string) => gl.getUniformLocation(program, name);
 
     const handleResize = () => {
-      const dpr = window.devicePixelRatio || 1;
+      const dpr = Math.min(window.devicePixelRatio || 1, dprCap);
       canvas.width = canvas.clientWidth * dpr;
       canvas.height = canvas.clientHeight * dpr;
       gl.viewport(0, 0, canvas.width, canvas.height);
@@ -220,10 +225,17 @@ export default function LiquidBackground() {
     let running = true;
     let totalTime = 0;
     let lastTime = 0;
+    let lastFrameTime = 0;
     let frameId = 0;
 
     const frame = (now: number) => {
       if (!running) return;
+      const elapsed = now - lastFrameTime;
+      if (elapsed < frameInterval) {
+        frameId = requestAnimationFrame(frame);
+        return;
+      }
+      lastFrameTime = now - (elapsed % frameInterval);
       const dt = now - lastTime;
       lastTime = now;
       totalTime += dt * MIST.speed;
@@ -267,7 +279,7 @@ export default function LiquidBackground() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full opacity-35 pointer-events-none"
-      style={{ mixBlendMode: "screen" }}
+      style={{ mixBlendMode: "screen", willChange: "transform" }}
     />
   );
 }
