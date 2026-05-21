@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import ProjectsSection from "@/components/ProjectsSection";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -66,6 +67,8 @@ export default function Home() {
           </div>
         </motion.div>
       </div>
+
+      <ProjectsSection />
 
       {/* Decorative Technical Detail */}
       <div className="mt-auto pt-24 hidden lg:block">
