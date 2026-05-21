@@ -150,7 +150,11 @@ function compileShader(gl: WebGL2RenderingContext, type: number, source: string)
 function createProgram(gl: WebGL2RenderingContext, vsSource: string, fsSource: string) {
   const vs = compileShader(gl, gl.VERTEX_SHADER, vsSource);
   const fs = compileShader(gl, gl.FRAGMENT_SHADER, fsSource);
-  if (!vs || !fs) return null;
+  if (!vs || !fs) {
+    if (vs) gl.deleteShader(vs);
+    if (fs) gl.deleteShader(fs);
+    return null;
+  }
   const program = gl.createProgram();
   if (!program) return null;
   gl.attachShader(program, vs);
@@ -208,6 +212,7 @@ export default function LiquidBackground() {
     let running = true;
     let totalTime = 0;
     let lastTime = 0;
+    let frameId = 0;
 
     const frame = (now: number) => {
       if (!running) return;
@@ -235,14 +240,15 @@ export default function LiquidBackground() {
       gl.uniform1f(u("u_swirlIterations"), MIST.swirlIterations);
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
-      requestAnimationFrame(frame);
+      frameId = requestAnimationFrame(frame);
     };
 
     lastTime = performance.now();
-    requestAnimationFrame(frame);
+    frameId = requestAnimationFrame(frame);
 
     return () => {
       running = false;
+      cancelAnimationFrame(frameId);
       ro.disconnect();
       gl.deleteBuffer(buf);
       gl.deleteProgram(program);
