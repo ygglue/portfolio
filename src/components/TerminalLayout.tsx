@@ -9,9 +9,10 @@ const chapters: Record<string, { chapter: string; title: string }> = {
   "/": { chapter: "00", title: "SYSTEM_INDEX" },
   "/projects": { chapter: "01", title: "PROJECTS" },
   "/skills": { chapter: "02", title: "SKILLS" },
+  "/contact": { chapter: "03", title: "CONTACT" },
 };
 
-const chapterOrder = ["/", "/projects", "/skills"];
+const chapterOrder = ["/", "/projects", "/skills", "/contact"];
 
 export default function TerminalLayout({
   children,
