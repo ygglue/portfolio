@@ -45,7 +45,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-full p-6 md:p-12">
-      <div className="max-w-4xl">
+      <div className="max-w-4xl w-full mx-auto">
         {/* Terminal command */}
         <div className="font-mono text-sm md:text-base mb-6">
           {commandText}

@@ -5,7 +5,7 @@ Chapter 03 of the terminal portfolio — a contact page displaying email, GitHub
 
 ## Command Sequence
 Following the established chapter pattern:
-1. `$ cat contact/` types in character by character (50ms per char, cursor blink)
+1. `$ cat contact.json` types in character by character (50ms per char, cursor blink)
 2. 300ms pause → `[ 03_CONTACT ]` fades in from the left
 3. 500ms pause → contact fields stagger in (80ms between each)
 

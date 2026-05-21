@@ -6,7 +6,7 @@ import { useInView } from "framer-motion";
 import ProjectCard from "./ProjectCard";
 import { projects } from "@/data/projects";
 
-const COMMAND = "$ cd projects/";
+const COMMAND = "$ cd ../projects/";
 
 export default function ProjectsSection() {
   const ref = useRef<HTMLElement>(null);

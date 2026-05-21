@@ -6,7 +6,7 @@ import { useInView } from "framer-motion";
 import { TechIcon } from "./TechIcon";
 import { skillCategories, type SkillStatus } from "@/data/skills";
 
-const COMMAND = "$ cat skills/";
+const COMMAND = "$ cd ../skills/";
 
 const STATUS_STYLES: Record<SkillStatus, string> = {
   ACTIVE: "text-green-400/80 border-green-400/30",
@@ -106,9 +106,9 @@ export default function SkillsSection() {
                 {category.skills.map((skill) => (
                   <div
                     key={skill.name}
-                    className="flex items-center gap-2 px-2.5 py-1.5 border border-zinc-800/60"
+                    className="flex items-center gap-2 px-2.5 py-3 border border-zinc-800/60"
                   >
-                    <TechIcon name={skill.icon} size={14} />
+                    <TechIcon name={skill.icon} size={18} />
                     <span className="font-mono text-[11px] md:text-xs text-zinc-300 truncate">
                       {skill.name}
                     </span>
