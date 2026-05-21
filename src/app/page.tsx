@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import ProjectsSection from "@/components/ProjectsSection";
+import Link from "next/link";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -47,9 +47,9 @@ export default function Home() {
               high-performance systems, developer tooling, and AI-native workflows.
             </p>
             <div className="flex gap-4">
-              <button className="px-6 py-2 bg-white text-black text-xs font-bold uppercase tracking-widest hover:bg-neutral-200 transition-colors">
+              <Link href="/projects" className="px-6 py-2 bg-white text-black text-xs font-bold uppercase tracking-widest hover:bg-neutral-200 transition-colors inline-block text-center">
                 View Projects
-              </button>
+              </Link>
               <button className="px-6 py-2 border border-white/20 text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">
                 Contact
               </button>
@@ -67,8 +67,6 @@ export default function Home() {
           </div>
         </motion.div>
       </div>
-
-      <ProjectsSection />
 
       {/* Decorative Technical Detail */}
       <div className="mt-auto pt-24 hidden lg:block">
