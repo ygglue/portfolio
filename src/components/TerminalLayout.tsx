@@ -44,11 +44,11 @@ export default function TerminalLayout({
   const next = currentIdx < chapterOrder.length - 1 ? chapterOrder[currentIdx + 1] : null;
 
   return (
-    <div className="min-h-screen bg-black text-white font-mono selection:bg-white selection:text-black">
+    <div className="min-h-dvh bg-black text-white font-mono selection:bg-white selection:text-black p-4 md:p-8">
       <BackgroundFlow />
 
-      <div className="relative flex flex-col min-h-screen border border-white/10 m-4 md:m-8 z-10">
-        <header className="sticky top-0 flex justify-between items-center px-4 py-2 border-b border-white/10 bg-black/80 backdrop-blur-md z-20">
+      <div className="relative flex flex-col h-dvh border border-white/10 z-10">
+        <header className="shrink-0 flex justify-between items-center px-4 py-2 border-b border-white/10 bg-black/80 backdrop-blur-md z-20">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="text-[10px] opacity-40 uppercase tracking-tighter">Chapter</span>
@@ -80,11 +80,11 @@ export default function TerminalLayout({
           </nav>
         </header>
 
-        <main className="flex-1">
+        <main className="flex-1 overflow-y-auto">
           {children}
         </main>
 
-        <footer className="sticky bottom-0 flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-2 border-t border-white/10 bg-black/80 backdrop-blur-md text-[8px] md:text-[10px] opacity-40 uppercase tracking-widest z-20">
+        <footer className="shrink-0 flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-2 border-t border-white/10 bg-black/80 backdrop-blur-md text-[8px] md:text-[10px] opacity-40 uppercase tracking-widest z-20">
           <span>© 2026_EST_CORE</span>
           <span className="hidden sm:inline opacity-30">|</span>
           <span>MEMORY_LOAD: 24%</span>
