@@ -28,6 +28,9 @@ export default function TerminalLayout({
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).ethereum = (window as any).ethereum || {};
+
     const updateTime = () => {
       const now = new Date();
       setTime(
