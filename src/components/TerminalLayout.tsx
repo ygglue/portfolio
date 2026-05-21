@@ -44,10 +44,10 @@ export default function TerminalLayout({
   const next = currentIdx < chapterOrder.length - 1 ? chapterOrder[currentIdx + 1] : null;
 
   return (
-    <div className="min-h-dvh bg-black text-white font-mono selection:bg-white selection:text-black p-4 md:p-8">
+    <div className="h-dvh bg-black text-white font-mono selection:bg-white selection:text-black">
       <BackgroundFlow />
 
-      <div className="relative flex flex-col h-dvh border border-white/10 z-10">
+      <div className="relative flex flex-col h-full border border-white/10 z-10">
         <header className="shrink-0 flex justify-between items-center px-4 py-2 border-b border-white/10 bg-black/80 backdrop-blur-md z-20">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
