@@ -1,13 +1,21 @@
-"use client";
-
+import type { Metadata } from "next";
 import SkillsSection from "@/components/SkillsSection";
+import PageShell from "@/components/PageShell";
+
+export const metadata: Metadata = {
+  title: "SKILLS // SYSTEM_INDEX",
+  description:
+    "Technical skills and competencies — languages, frameworks, tools, and creative software.",
+  openGraph: {
+    title: "SKILLS // SYSTEM_INDEX",
+    description: "Technical skills and competencies.",
+  },
+};
 
 export default function SkillsPage() {
   return (
-    <div className="flex flex-col min-h-full p-6 md:p-12">
-      <div className="max-w-4xl w-full mx-auto">
-        <SkillsSection />
-      </div>
-    </div>
+    <PageShell>
+      <SkillsSection />
+    </PageShell>
   );
 }

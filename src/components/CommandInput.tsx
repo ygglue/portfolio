@@ -105,6 +105,7 @@ export default function CommandInput() {
               placeholder="page --help"
               spellCheck={false}
               autoComplete="off"
+              aria-label="Terminal command input"
             />
             {feedback && (
               <span

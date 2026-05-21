@@ -3,13 +3,10 @@
 import type { Project } from "@/data/projects";
 
 export default function ProjectCard({ project }: { project: Project }) {
-  return (
-    <a
-      href={project.githubUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block font-mono border border-white/15 hover:border-white/30 transition-colors group"
-    >
+  const clickable = project.clickable !== false;
+
+  const inner = (
+    <>
       {/* Header ── project-name ── */}
       <div className="flex items-center gap-2 px-4 py-2 border-b border-white/15">
         <span className="text-white/40 text-xs leading-none">┌──</span>
@@ -30,7 +27,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         />
       ) : (
         <div className="h-48 flex items-center justify-center border-b border-white/15 bg-neutral-950">
-          <span className="text-white/10 text-xs">[SCREENSHOT]</span>
+          <span className="text-white/10 text-xs">[CONFIDENTIAL]</span>
         </div>
       )}
 
@@ -46,6 +43,25 @@ export default function ProjectCard({ project }: { project: Project }) {
           └─ {project.githubUrl.replace("https://", "")}
         </div>
       </div>
-    </a>
+    </>
+  );
+
+  if (clickable) {
+    return (
+      <a
+        href={project.githubUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block font-mono border border-white/15 hover:border-white/30 transition-colors group cursor-pointer"
+      >
+        {inner}
+      </a>
+    );
+  }
+
+  return (
+    <div className="block font-mono border border-white/15 transition-colors group cursor-default">
+      {inner}
+    </div>
   );
 }

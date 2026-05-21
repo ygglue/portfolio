@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import BackgroundFlow from "./BackgroundFlow";
 import CommandInput from "./CommandInput";
 
@@ -51,8 +51,16 @@ export default function TerminalLayout({
 
   return (
     <div className="h-dvh bg-black text-white font-mono selection:bg-white selection:text-black">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-black focus:text-white focus:border focus:border-white/30 focus:text-xs focus:uppercase focus:tracking-widest"
+      >
+        Skip to content
+      </a>
+
       <BackgroundFlow />
 
+      <MotionConfig reducedMotion="user">
       <div className="relative flex flex-col h-full border border-white/10 z-10">
         <header className="shrink-0 flex justify-between items-center px-4 py-2 border-b border-white/10 bg-black/80 backdrop-blur-md z-20">
           <div className="flex items-center gap-4">
@@ -64,7 +72,7 @@ export default function TerminalLayout({
             <h1 className="text-xs font-bold tracking-widest uppercase">{config.title}</h1>
           </div>
 
-          <nav className="flex items-center gap-4">
+          <nav aria-label="Page navigation" className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-3 text-[10px] opacity-50 uppercase tracking-widest">
               {chapterOrder.map((p) => (
                 <Link
@@ -78,10 +86,7 @@ export default function TerminalLayout({
                 </Link>
               ))}
             </div>
-            <div className="hidden md:flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
-              <span className="text-[10px] opacity-50 uppercase tracking-widest">System Active</span>
-            </div>
+            <div className="hidden md:block w-4" />
             <div className="text-[10px] opacity-50 tabular-nums">{time}</div>
           </nav>
         </header>
@@ -89,7 +94,9 @@ export default function TerminalLayout({
         <button
           onClick={() => setMenuOpen((o) => !o)}
           className="md:hidden fixed top-12 right-3 z-50 flex flex-col items-center justify-center w-10 h-10 bg-black/80 border border-white/15 backdrop-blur-md rounded-md active:scale-95 transition-transform"
-          aria-label="Toggle menu"
+          aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
         >
           <div className={`w-5 h-[2px] bg-zinc-300 transition-transform duration-200 ${menuOpen ? "translate-y-[5px] rotate-45" : ""}`} />
           <div className={`h-[2px] bg-zinc-300 transition-all duration-200 mt-[3px] overflow-hidden shrink-0 ${menuOpen ? "w-0 opacity-0" : "w-5 opacity-100"}`} />
@@ -103,6 +110,9 @@ export default function TerminalLayout({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.12 }}
+              id="mobile-menu"
+              role="navigation"
+              aria-label="Mobile navigation"
               className="md:hidden fixed top-[88px] right-3 w-48 border border-white/10 bg-black/90 backdrop-blur-md z-50"
             >
               <div className="flex flex-col">
@@ -125,7 +135,7 @@ export default function TerminalLayout({
           )}
         </AnimatePresence>
 
-        <main className="flex-1 overflow-y-auto">
+        <main id="main-content" className="flex-1 overflow-y-auto">
           {children}
         </main>
 
@@ -149,6 +159,7 @@ export default function TerminalLayout({
 
         <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.015] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
       </div>
+      </MotionConfig>
     </div>
   );
 }

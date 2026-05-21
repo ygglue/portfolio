@@ -1,13 +1,21 @@
-"use client";
-
+import type { Metadata } from "next";
 import ProjectsSection from "@/components/ProjectsSection";
+import PageShell from "@/components/PageShell";
+
+export const metadata: Metadata = {
+  title: "PROJECTS // SYSTEM_INDEX",
+  description:
+    "Projects built by ygglue — full-stack apps, tooling, and experimental systems.",
+  openGraph: {
+    title: "PROJECTS // SYSTEM_INDEX",
+    description: "Projects built by ygglue.",
+  },
+};
 
 export default function ProjectsPage() {
   return (
-    <div className="flex flex-col min-h-full p-6 md:p-12">
-      <div className="max-w-4xl w-full mx-auto">
-        <ProjectsSection />
-      </div>
-    </div>
+    <PageShell>
+      <ProjectsSection />
+    </PageShell>
   );
 }

@@ -9,19 +9,19 @@ export const contactLinks: ContactLink[] = [
   {
     label: "email",
     icon: "mail",
-    value: "eli@elitru.io",
-    href: "mailto:eli@elitru.io",
+    value: "lagumbayeliyahu@gmail.com",
+    href: "mailto:lagumbayeliyahu@gmail.com",
   },
   {
     label: "github",
     icon: "git",
-    value: "github.com/elitru",
-    href: "https://github.com/elitru",
+    value: "github.com/ygglue",
+    href: "https://github.com/ygglue",
   },
   {
     label: "facebook",
     icon: "facebook",
-    value: "facebook.com/elitru",
-    href: "https://facebook.com/elitru",
+    value: "facebook.com/eliyahu.lagumbay",
+    href: "https://facebook.com/eliyahu.lagumbay",
   },
 ];

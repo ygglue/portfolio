@@ -188,9 +188,14 @@ export default function LiquidBackground() {
     if (!canvas) return;
 
     const isMobile = window.innerWidth < 768 || "ontouchstart" in window;
-    const MAX_FPS = isMobile ? 30 : 60;
+    const MAX_FPS = 30;
     const frameInterval = 1000 / MAX_FPS;
     const dprCap = isMobile ? 1.5 : 2;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion) return;
 
     const gl = canvas.getContext("webgl2", { alpha: true, antialias: false });
     if (!gl) return;
@@ -227,6 +232,19 @@ export default function LiquidBackground() {
     let lastTime = 0;
     let lastFrameTime = 0;
     let frameId = 0;
+
+    const onVisibility = () => {
+      if (document.hidden) {
+        running = false;
+        cancelAnimationFrame(frameId);
+      } else {
+        running = true;
+        lastTime = performance.now();
+        lastFrameTime = 0;
+        frameId = requestAnimationFrame(frame);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
 
     const frame = (now: number) => {
       if (!running) return;
@@ -269,6 +287,7 @@ export default function LiquidBackground() {
     return () => {
       running = false;
       cancelAnimationFrame(frameId);
+      document.removeEventListener("visibilitychange", onVisibility);
       ro.disconnect();
       gl.deleteBuffer(buf);
       gl.deleteProgram(program);
@@ -279,7 +298,7 @@ export default function LiquidBackground() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full opacity-35 pointer-events-none"
-      style={{ mixBlendMode: "screen", willChange: "transform" }}
+      style={{ mixBlendMode: "screen" }}
     />
   );
 }

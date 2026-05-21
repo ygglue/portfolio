@@ -1,60 +1,32 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
+import { Copy, Check } from "lucide-react";
 import { TechIcon } from "./TechIcon";
 import { contactLinks } from "@/data/contact";
 import { commands } from "@/data/commands";
+import { useSectionAnimation } from "@/hooks/useSectionAnimation";
 
 const command = commands.find((c) => c.path === "/contact")!;
 const COMMAND = "$ " + command.cmd;
 
 export default function ContactSection() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: false, amount: 0.3 });
-  const [phase, setPhase] = useState<"idle" | "command" | "header" | "content">(
-    "idle",
-  );
-  const [commandText, setCommandText] = useState("");
+  const { ref, phase, commandText } = useSectionAnimation(COMMAND);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  useEffect(() => {
-    if (!isInView) {
-      setPhase("idle");
-      setCommandText("");
-      return;
-    }
-    if (phase !== "idle") return;
-    setCommandText("");
-    setPhase("command");
-  }, [isInView, phase]);
-
-  useEffect(() => {
-    if (phase !== "command") return;
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setCommandText(COMMAND.slice(0, i));
-      if (i >= COMMAND.length) {
-        clearInterval(interval);
-        setTimeout(() => setPhase("header"), 300);
-      }
-    }, 50);
-    return () => clearInterval(interval);
-  }, [phase]);
-
-  useEffect(() => {
-    if (phase !== "header") return;
-    const timer = setTimeout(() => setPhase("content"), 500);
-    return () => clearTimeout(timer);
-  }, [phase]);
+  const handleCopy = async (value: string, index: number) => {
+    await navigator.clipboard.writeText(value);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 1500);
+  };
 
   return (
     <section ref={ref}>
       <div className="font-mono text-sm md:text-base mb-6">
         {commandText}
         {phase === "command" && (
-          <span className="inline-block w-[2px] h-[1em] bg-white ml-1 animate-pulse align-middle" />
+          <span className="inline-block w-[2px] h-[1em] bg-white ml-1 animate-blink align-middle" />
         )}
       </div>
 
@@ -79,7 +51,7 @@ export default function ContactSection() {
           }}
           className="space-y-2"
         >
-          {contactLinks.map((link) => (
+          {contactLinks.map((link, i) => (
             <motion.div
               key={link.label}
               variants={{
@@ -88,24 +60,37 @@ export default function ContactSection() {
               }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
-              <a
-                href={link.href}
-                target={link.href.startsWith("mailto") ? undefined : "_blank"}
-                rel={
-                  link.href.startsWith("mailto")
-                    ? undefined
-                    : "noopener noreferrer"
-                }
-                className="flex items-center gap-2 px-2.5 py-2 border border-zinc-800/60 hover:border-zinc-600 transition-colors"
-              >
-                <TechIcon name={link.icon} size={18} />
-                <span className="font-mono text-[11px] md:text-xs text-zinc-500 w-16 shrink-0 uppercase tracking-wider">
-                  {link.label}
-                </span>
-                <span className="font-mono text-[11px] md:text-xs text-zinc-300">
-                  {link.value}
-                </span>
-              </a>
+              <div className="flex items-center border border-zinc-800/60 hover:border-zinc-600 transition-colors">
+                <a
+                  href={link.href}
+                  target={link.href.startsWith("mailto") ? undefined : "_blank"}
+                  rel={
+                    link.href.startsWith("mailto")
+                      ? undefined
+                      : "noopener noreferrer"
+                  }
+                  className="flex items-center gap-2 px-2.5 py-3 flex-1 min-w-0"
+                >
+                  <TechIcon name={link.icon} size={18} />
+                  <span className="font-mono text-[11px] md:text-xs text-zinc-500 w-16 shrink-0 uppercase tracking-wider">
+                    {link.label}
+                  </span>
+                  <span className="font-mono text-[11px] md:text-xs text-zinc-300">
+                    {link.value}
+                  </span>
+                </a>
+                <button
+                  onClick={() => handleCopy(link.value, i)}
+                  className="px-3 py-3 text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/40 transition-colors border-l border-zinc-800/60"
+                  title={`Copy ${link.label}`}
+                >
+                  {copiedIndex === i ? (
+                    <Check size={14} className="text-green-400" />
+                  ) : (
+                    <Copy size={14} />
+                  )}
+                </button>
+              </div>
             </motion.div>
           ))}
         </motion.div>
