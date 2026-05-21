@@ -47,8 +47,8 @@ export default function TerminalLayout({
     <div className="min-h-screen bg-black text-white font-mono selection:bg-white selection:text-black">
       <BackgroundFlow />
 
-      <div className="relative flex flex-col min-h-screen border border-white/10 m-4 md:m-8 overflow-hidden z-10">
-        <header className="flex justify-between items-center px-4 py-2 border-b border-white/10 bg-black/50 backdrop-blur-sm z-10">
+      <div className="relative flex flex-col min-h-screen border border-white/10 m-4 md:m-8 z-10">
+        <header className="sticky top-0 flex justify-between items-center px-4 py-2 border-b border-white/10 bg-black/80 backdrop-blur-md z-20">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="text-[10px] opacity-40 uppercase tracking-tighter">Chapter</span>
@@ -80,11 +80,11 @@ export default function TerminalLayout({
           </nav>
         </header>
 
-        <main className="flex-1 relative overflow-y-auto">
+        <main className="flex-1">
           {children}
         </main>
 
-        <footer className="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-2 border-t border-white/10 text-[8px] md:text-[10px] opacity-40 uppercase tracking-widest z-10">
+        <footer className="sticky bottom-0 flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-2 border-t border-white/10 bg-black/80 backdrop-blur-md text-[8px] md:text-[10px] opacity-40 uppercase tracking-widest z-20">
           <span>© 2026_EST_CORE</span>
           <span className="hidden sm:inline opacity-30">|</span>
           <span>MEMORY_LOAD: 24%</span>
