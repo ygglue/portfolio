@@ -14,6 +14,7 @@ interface Project {
   description: string;
   techTags: string[];
   githubUrl: string;
+  screenshot?: string;
 }
 ```
 
@@ -27,14 +28,17 @@ interface Project {
 - After typing completes, fades in the three `<ProjectCard>` components
 - Resets when scrolled out and back in (re-triggers)
 
-### `ProjectCard.tsx` — TUI terminal card
+### `ProjectCard.tsx` — TUI terminal card (large layout)
 
-Visual-only terminal aesthetic — behaves as a normal card (clickable link, hover states). Uses box-drawing characters for styling only, not an interactive terminal emulator.
+Visual-only terminal aesthetic — behaves as a normal card (clickable link, hover states). Uses CSS borders styled as terminal box-drawing with decorative box-drawing characters.
 
-Layout:
+Layout (wider, taller):
 
 ```
 ┌── project-name ───────────────────────┐
+│                                       │
+│            [screenshot]               │
+│                                       │
 │  One-line description                 │
 │  [Tag1] [Tag2] [Tag3]                 │
 │  └─ github.com/user/repo              │
@@ -42,10 +46,13 @@ Layout:
 ```
 
 - Monospaced font (inherited)
-- Box-drawing characters: `┌── ──┐ │ └─ └── ──┘`
+- CSS borders (`border-white/15`, `rounded-none`) for the card outline
+- Box-drawing characters in the header (`┌── ──┐`) and GitHub link (`└─`)
+- Screenshot via `project.screenshot` path (optional — shows `[SCREENSHOT]` placeholder if absent)
 - Tags in `[brackets]`, GitHub link with `└─` prefix
 - Normal card hover effect (brightness/opacity shift, cursor pointer)
-- The entire card is wrapped in a link to the GitHub URL
+- Entire card wrapped in a link to the GitHub URL
+- Images stored in `/public/projects/`
 
 ## Integration
 

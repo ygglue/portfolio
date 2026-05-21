@@ -3,6 +3,7 @@ export interface Project {
   description: string;
   techTags: string[];
   githubUrl: string;
+  screenshot?: string;
 }
 
 export const projects: Project[] = [
