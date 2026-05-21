@@ -3,31 +3,15 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { TechIcon } from "./TechIcon";
-import { skillCategories, type SkillStatus } from "@/data/skills";
 import { commands } from "@/data/commands";
 
-const command = commands.find((c) => c.path === "/skills")!;
+const command = commands.find((c) => c.path === "/help")!;
 const COMMAND = "$ " + command.cmd;
 
-const STATUS_STYLES: Record<SkillStatus, string> = {
-  ACTIVE: "text-green-400/80 border-green-400/30",
-  PROFICIENT: "text-zinc-300 border-zinc-500/30",
-  LEARNING: "text-zinc-500 border-zinc-600/20",
-};
-
-const STATUS_LABEL: Record<SkillStatus, string> = {
-  ACTIVE: "ACTIVE",
-  PROFICIENT: "PROF",
-  LEARNING: "LRN",
-};
-
-export default function SkillsSection() {
+export default function HelpSection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: false, amount: 0.3 });
-  const [phase, setPhase] = useState<"idle" | "command" | "header" | "content">(
-    "idle",
-  );
+  const [phase, setPhase] = useState<"idle" | "command" | "header" | "content">("idle");
   const [commandText, setCommandText] = useState("");
 
   useEffect(() => {
@@ -36,7 +20,6 @@ export default function SkillsSection() {
       setCommandText("");
       return;
     }
-
     if (phase !== "idle") return;
     setCommandText("");
     setPhase("command");
@@ -63,7 +46,7 @@ export default function SkillsSection() {
   }, [phase]);
 
   return (
-    <section ref={ref}>
+    <section ref={ref} className="[font-variant-ligatures:none]">
       <div className="font-mono text-sm md:text-base mb-6">
         {commandText}
         {phase === "command" && (
@@ -78,7 +61,7 @@ export default function SkillsSection() {
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <div className="mb-8 text-[10px] md:text-xs opacity-40 tracking-[0.3em] uppercase">
-            [ 02_SKILLS ]
+            [ ??_MANUAL ]
           </div>
         </motion.div>
       )}
@@ -90,37 +73,25 @@ export default function SkillsSection() {
           variants={{
             visible: { transition: { staggerChildren: 0.08 } },
           }}
-          className="space-y-8"
+          className="space-y-2"
         >
-          {skillCategories.map((category) => (
+          <div className="text-zinc-500 text-xs mb-4">Available commands:</div>
+          {commands.map((cmd) => (
             <motion.div
-              key={category.name}
+              key={cmd.cmd}
               variants={{
                 hidden: { opacity: 0, y: 8 },
                 visible: { opacity: 1, y: 0 },
               }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
-              <div className="text-[10px] md:text-xs tracking-[0.2em] opacity-30 mb-3 uppercase">
-                {category.name}
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-                {category.skills.map((skill) => (
-                  <div
-                    key={skill.name}
-                    className="flex items-center gap-2 px-2.5 py-3 border border-zinc-800/60"
-                  >
-                    <TechIcon name={skill.icon} size={18} />
-                    <span className="font-mono text-[11px] md:text-xs text-zinc-300 truncate">
-                      {skill.name}
-                    </span>
-                    <span
-                      className={`ml-auto font-mono text-[9px] px-1 border ${STATUS_STYLES[skill.status]}`}
-                    >
-                      {STATUS_LABEL[skill.status]}
-                    </span>
-                  </div>
-                ))}
+              <div className="flex items-center gap-4 px-3 py-2 border border-zinc-800/60">
+                <span className="font-mono text-xs text-zinc-100 w-44 shrink-0">
+                  {cmd.cmd}
+                </span>
+                <span className="font-mono text-[11px] text-zinc-500">
+                  {cmd.description}
+                </span>
               </div>
             </motion.div>
           ))}

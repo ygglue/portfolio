@@ -3,8 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { commands } from "@/data/commands";
 
-const COMMAND = "$ init index";
+const command = commands.find((c) => c.path === "/")!;
+const COMMAND = "$ " + command.cmd;
 const FULL_TEXT = "BUILDING THE NEXT GENERATION OF TECHNICAL TOOLS.";
 
 export default function Home() {

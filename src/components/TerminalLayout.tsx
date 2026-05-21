@@ -4,12 +4,14 @@ import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import BackgroundFlow from "./BackgroundFlow";
+import CommandInput from "./CommandInput";
 
 const chapters: Record<string, { chapter: string; title: string }> = {
   "/": { chapter: "00", title: "SYSTEM_INDEX" },
   "/projects": { chapter: "01", title: "PROJECTS" },
   "/skills": { chapter: "02", title: "SKILLS" },
   "/contact": { chapter: "03", title: "CONTACT" },
+  "/help": { chapter: "??", title: "MANUAL" },
 };
 
 const chapterOrder = ["/", "/projects", "/skills", "/contact"];
@@ -85,6 +87,8 @@ export default function TerminalLayout({
         <main className="flex-1 overflow-y-auto">
           {children}
         </main>
+
+        <CommandInput />
 
         <footer className="shrink-0 flex items-center justify-between px-4 py-2 border-t border-white/10 bg-black/80 backdrop-blur-md text-[10px] opacity-40 uppercase tracking-widest z-20">
           <span>© 2026_EST_CORE</span>

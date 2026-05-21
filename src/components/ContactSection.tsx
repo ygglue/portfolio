@@ -5,13 +5,17 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { TechIcon } from "./TechIcon";
 import { contactLinks } from "@/data/contact";
+import { commands } from "@/data/commands";
 
-const COMMAND = "$ cat contact/";
+const command = commands.find((c) => c.path === "/contact")!;
+const COMMAND = "$ " + command.cmd;
 
 export default function ContactSection() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: false, amount: 0.3 });
-  const [phase, setPhase] = useState<"idle" | "command" | "header" | "content">("idle");
+  const [phase, setPhase] = useState<"idle" | "command" | "header" | "content">(
+    "idle",
+  );
   const [commandText, setCommandText] = useState("");
 
   useEffect(() => {
@@ -87,7 +91,11 @@ export default function ContactSection() {
               <a
                 href={link.href}
                 target={link.href.startsWith("mailto") ? undefined : "_blank"}
-                rel={link.href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                rel={
+                  link.href.startsWith("mailto")
+                    ? undefined
+                    : "noopener noreferrer"
+                }
                 className="flex items-center gap-2 px-2.5 py-2 border border-zinc-800/60 hover:border-zinc-600 transition-colors"
               >
                 <TechIcon name={link.icon} size={18} />

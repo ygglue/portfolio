@@ -5,8 +5,10 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import ProjectCard from "./ProjectCard";
 import { projects } from "@/data/projects";
+import { commands } from "@/data/commands";
 
-const COMMAND = "$ cd ../projects/";
+const command = commands.find((c) => c.path === "/projects")!;
+const COMMAND = "$ " + command.cmd;
 
 export default function ProjectsSection() {
   const ref = useRef<HTMLElement>(null);
