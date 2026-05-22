@@ -2,8 +2,6 @@
 
 import type { Project } from "@/data/projects";
 
-const basePath = process.env.NODE_ENV === "production" ? "/portfolio" : "";
-
 export default function ProjectCard({ project }: { project: Project }) {
   const clickable = project.clickable !== false;
 
@@ -24,7 +22,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       {project.screenshot ? (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
-          src={`${basePath}${project.screenshot}`}
+          src={project.screenshot}
           alt={project.name}
           className="w-full h-48 object-cover border-b border-white/15"
         />

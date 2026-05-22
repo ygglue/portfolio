@@ -3,8 +3,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import TerminalLayout from "@/components/TerminalLayout";
 
-const basePath = process.env.NODE_ENV === "production" ? "/portfolio" : "";
-
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -24,7 +22,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "PORTFOLIO // SYSTEM_INDEX",
   description: "High-performance Developer-Core portfolio.",
-  icons: [{ rel: "icon", url: `${basePath}/favicon.svg`, type: "image/svg+xml" }],
+  icons: [{ rel: "icon", url: "/favicon.svg", type: "image/svg+xml" }],
 };
 
 export default function RootLayout({

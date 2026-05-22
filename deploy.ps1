@@ -14,10 +14,13 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "Configuring SPA fallback (trailing-slash redirect)..." -ForegroundColor Cyan
-$redirectScript = "<script>(function(){var p=location.pathname;if(p!=='/portfolio/'&&p!=='/'&&!p.endsWith('/')){location.href=p+'/'+location.search;}})();</script>"
+$redirectScript = "<script>(function(){var p=location.pathname;if(p!=='/'&&!p.endsWith('/')){location.href=p+'/'+location.search;}})();</script>"
 $content = Get-Content -Path "out\404.html" -Raw
 $newContent = $content -replace '<head>', "<head>`n  $redirectScript"
 Set-Content -Path "out\404.html" -Value $newContent
+
+Write-Host "Creating .nojekyll for GitHub Pages..." -ForegroundColor Cyan
+New-Item -ItemType File -Path "out\.nojekyll" -Force | Out-Null
 
 Write-Host "Deploying to gh-pages branch..." -ForegroundColor Cyan
 npx gh-pages -d out -m "$Message"
