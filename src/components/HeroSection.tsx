@@ -38,7 +38,7 @@ export default function HeroSection() {
 
   useEffect(() => {
     if (phase !== "header") return;
-    const timer = setTimeout(() => setPhase("content"), 500);
+    const timer = setTimeout(() => setPhase("content"), 200);
     return () => clearTimeout(timer);
   }, [phase]);
 
@@ -68,15 +68,15 @@ export default function HeroSection() {
                   setLine2(LINE_2.slice(0, k));
                   if (k >= LINE_2.length) {
                     clearInterval(typeLine2);
-                    timers.push(setTimeout(() => setShowName(true), 200));
+                    timers.push(setTimeout(() => setShowName(true), 150));
                   }
-                }, 50);
-              }, 300));
+                }, 25);
+              }, 150));
             }
-          }, 50);
-        }, 300));
+          }, 25);
+        }, 150));
       }
-    }, 50);
+    }, 25);
     return () => {
       cancelled = true;
       clearInterval(typeLine1);
@@ -99,7 +99,7 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
         >
           <div className="mb-4 text-[10px] md:text-xs opacity-40 tracking-[0.3em] uppercase">
             [ 00_INITIALIZING_SEQUENCE ]
@@ -128,7 +128,7 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 0.3 }}
           className="grid grid-cols-1 md:grid-cols-2 gap-12"
         >
           <div className="space-y-6">

@@ -60,6 +60,26 @@ export default function HelpSection() {
               </div>
             </motion.div>
           ))}
+
+          <div className="pt-6 mt-6 border-t border-zinc-800/60">
+            <div className="text-zinc-500 text-xs mb-4">Footer navigation:</div>
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 8 },
+                visible: { opacity: 1, y: 0 },
+              }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            >
+              <div className="px-3 py-2 border border-zinc-800/60">
+                <p className="font-mono text-[11px] text-zinc-400 leading-relaxed">
+                  Use the <span className="text-zinc-200">← prev</span> and{" "}
+                  <span className="text-zinc-200">next →</span> links in the
+                  footer bar at the bottom of each page to step through chapters
+                  in order.
+                </p>
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
       )}
     </section>

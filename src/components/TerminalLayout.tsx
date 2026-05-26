@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
@@ -24,26 +24,7 @@ export default function TerminalLayout({
 }) {
   const pathname = usePathname();
   const config = chapters[pathname] || { chapter: "00", title: "UNKNOWN" };
-  const [time, setTime] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTime(
-        now.toLocaleTimeString("en-US", {
-          hour12: false,
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        })
-      );
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   const currentIdx = chapterOrder.indexOf(pathname);
   const prev = currentIdx > 0 ? chapterOrder[currentIdx - 1] : null;
@@ -72,22 +53,18 @@ export default function TerminalLayout({
             <h1 className="text-xs font-bold tracking-widest uppercase">{config.title}</h1>
           </div>
 
-          <nav aria-label="Page navigation" className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-3 text-[10px] opacity-50 uppercase tracking-widest">
-              {chapterOrder.map((p) => (
-                <Link
-                  key={p}
-                  href={p}
-                  className={`transition-colors ${
-                    p === pathname ? "opacity-100 text-white" : "opacity-40 hover:opacity-70"
-                  }`}
-                >
-                  {chapters[p].chapter}_{chapters[p].title}
-                </Link>
-              ))}
-            </div>
-            <div className="hidden md:block w-4" />
-            <div className="text-[10px] opacity-50 tabular-nums">{time}</div>
+          <nav aria-label="Page navigation" className="hidden md:flex items-center gap-3 text-xs font-bold uppercase tracking-widest">
+            {chapterOrder.map((p) => (
+              <Link
+                key={p}
+                href={p}
+                className={`transition-colors ${
+                  p === pathname ? "text-white" : "text-white/30 hover:text-white/60"
+                }`}
+              >
+                {chapters[p].chapter}_{chapters[p].title}
+              </Link>
+            ))}
           </nav>
         </header>
 
@@ -142,15 +119,15 @@ export default function TerminalLayout({
         <CommandInput />
 
         <footer className="shrink-0 flex items-center justify-between px-4 py-2 border-t border-white/10 bg-black/80 backdrop-blur-md text-[10px] opacity-40 uppercase tracking-widest z-20">
-          <span>© 2026_EST_CORE</span>
-          <div className="flex gap-4">
+          <span className="hidden md:inline">© 2026_EST_CORE</span>
+          <div className="flex w-full md:hidden">
             {prev && (
               <Link href={prev} className="hover:opacity-70 transition-opacity">
                 ← {chapters[prev].chapter}_{chapters[prev].title}
               </Link>
             )}
             {next && (
-              <Link href={next} className="hover:opacity-70 transition-opacity">
+              <Link href={next} className="ml-auto hover:opacity-70 transition-opacity">
                 {chapters[next].chapter}_{chapters[next].title} →
               </Link>
             )}
