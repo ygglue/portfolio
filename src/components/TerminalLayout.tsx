@@ -13,6 +13,7 @@ const chapters: Record<string, { chapter: string; title: string }> = {
   "/skills/": { chapter: "02", title: "SKILLS" },
   "/contact/": { chapter: "03", title: "CONTACT" },
   "/help/": { chapter: "??", title: "MANUAL" },
+  "/pong/": { chapter: "??", title: "PONG" },
 };
 
   const chapterOrder = ["/", "/projects/", "/skills/", "/contact/"];

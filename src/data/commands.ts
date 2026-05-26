@@ -18,4 +18,5 @@ export const commands: CommandDef[] = [
     path: "/contact",
   },
   { cmd: "page --help", description: "Show this help page", path: "/help" },
+  { cmd: "pong", description: "Launch retro Pong game", path: "/pong" },
 ];
