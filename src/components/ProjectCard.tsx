@@ -7,9 +7,9 @@ import type { Project } from "@/data/projects";
 export default function ProjectCard({ project }: { project: Project }) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
-  const hasUrl = project.githubUrl && project.githubUrl !== "PRIVATE";
+  const hasUrl = project.projectUrl && project.projectUrl !== "PRIVATE";
   const isClickable = project.clickable !== false && hasUrl;
-  const urlDisplay = isClickable ? project.githubUrl.replace("https://", "") : "PRIVATE";
+  const urlDisplay = isClickable ? project.projectUrl.replace("https://", "") : "PRIVATE";
 
   useEffect(() => {
     if (!lightboxOpen) return;
@@ -61,7 +61,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         <div className="text-white/50 text-[10px] leading-relaxed tracking-wider">
           {project.techTags.map((t) => `[${t}]`).join(" ")}
         </div>
-        <div className="text-white/40 text-[10px] leading-relaxed">
+        <div className="text-white text-[10px] leading-relaxed">
           └─ {urlDisplay}
         </div>
       </div>
@@ -72,7 +72,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     <>
       {isClickable ? (
         <a
-          href={project.githubUrl}
+          href={project.projectUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="block font-mono border border-white/15 hover:border-white/30 transition-colors group cursor-pointer"

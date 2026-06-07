@@ -2,7 +2,7 @@ export interface Project {
   name: string;
   description: string;
   techTags: string[];
-  githubUrl: string;
+  projectUrl: string;
   screenshot?: string;
   clickable?: boolean;
 }
@@ -21,8 +21,8 @@ export const projects: Project[] = [
       "DrizzleORM",
       "SQLite",
     ],
-    githubUrl: "PRIVATE",
-    clickable: false,
+    projectUrl: "https://vgenweb.vercel.app",
+    clickable: true,
     screenshot: "/screenshots/vgen.webp",
   },
   {
@@ -30,7 +30,7 @@ export const projects: Project[] = [
     description:
       "A Django web application that generates professional voucher PDFs from Excel files with a stunning dark glassmorphism UI.",
     techTags: ["Python", "Django", "HTML", "CSS", "JavaScript"],
-    githubUrl: "PRIVATE",
+    projectUrl: "PRIVATE",
     clickable: false,
     screenshot: "/screenshots/vgenlegacy.webp",
   },
@@ -39,7 +39,7 @@ export const projects: Project[] = [
     description:
       "A monorepo for managing scholarship applications, evaluations, and academic records. This system facilitates secure communication and document exchange between scholars and evaluators.",
     techTags: ["Rust", "Python", "Flask", "HTML", "CSS", "TypeScript"],
-    githubUrl: "PRIVATE",
+    projectUrl: "PRIVATE",
     clickable: false,
     screenshot: "/screenshots/scholarms.webp",
   },
@@ -48,7 +48,7 @@ export const projects: Project[] = [
     description:
       "This school project introduces a smart scheduling app designed to integrate academic timetables with real-time weather forecasts.",
     techTags: ["Python", "Django", "HTML", "JavaScript", "CSS"],
-    githubUrl: "https://github.com/ygglue/SchedulAir",
+    projectUrl: "https://github.com/ygglue/SchedulAir",
     screenshot: "/screenshots/schedulair.webp",
   },
   {
@@ -63,7 +63,7 @@ export const projects: Project[] = [
       "pnpm",
       "ESLint",
     ],
-    githubUrl: "PRIVATE",
+    projectUrl: "PRIVATE",
     clickable: false,
   },
 ];
