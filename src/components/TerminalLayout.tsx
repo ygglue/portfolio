@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
@@ -26,12 +26,6 @@ export default function TerminalLayout({
   const pathname = usePathname();
   const config = chapters[pathname] || { chapter: "00", title: "UNKNOWN" };
   const [menuOpen, setMenuOpen] = useState(false);
-  const [showNavHint, setShowNavHint] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowNavHint(false), 5000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const currentIdx = chapterOrder.indexOf(pathname);
   const prev = currentIdx > 0 ? chapterOrder[currentIdx - 1] : null;
@@ -76,7 +70,7 @@ export default function TerminalLayout({
         </header>
 
         <button
-          onClick={() => { setMenuOpen((o) => !o); setShowNavHint(false); }}
+          onClick={() => setMenuOpen((o) => !o)}
           className="md:hidden fixed top-12 right-3 z-50 flex flex-col items-center justify-center w-10 h-10 bg-black/80 border border-white/15 backdrop-blur-md rounded-md active:scale-95 transition-transform"
           aria-label="Toggle navigation menu"
           aria-expanded={menuOpen}
@@ -86,21 +80,6 @@ export default function TerminalLayout({
           <div className={`h-[2px] bg-zinc-300 transition-all duration-200 mt-[3px] overflow-hidden shrink-0 ${menuOpen ? "w-0 opacity-0" : "w-5 opacity-100"}`} />
           <div className={`w-5 h-[2px] bg-zinc-300 transition-transform duration-200 mt-[3px] ${menuOpen ? "-translate-y-[5px] -rotate-45" : ""}`} />
         </button>
-
-        {showNavHint && (
-          <div className="md:hidden fixed top-[98px] right-3 z-[60] pointer-events-none">
-            <div className="flex flex-col items-end">
-              <div className="w-2 h-2 bg-white/30 rotate-45 -mb-[1px] mr-[18px]" />
-              <motion.div
-                animate={{ scale: [1, 1.04, 1] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                className="bg-neutral-900 border border-white/25 px-3 py-2 text-[12px] text-white/80 origin-right"
-              >
-                Tap to navigate
-              </motion.div>
-            </div>
-          </div>
-        )}
 
         <AnimatePresence>
           {menuOpen && (
