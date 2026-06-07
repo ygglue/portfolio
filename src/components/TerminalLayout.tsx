@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
@@ -26,6 +26,12 @@ export default function TerminalLayout({
   const pathname = usePathname();
   const config = chapters[pathname] || { chapter: "00", title: "UNKNOWN" };
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showNavHint, setShowNavHint] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowNavHint(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const currentIdx = chapterOrder.indexOf(pathname);
   const prev = currentIdx > 0 ? chapterOrder[currentIdx - 1] : null;
@@ -70,7 +76,7 @@ export default function TerminalLayout({
         </header>
 
         <button
-          onClick={() => setMenuOpen((o) => !o)}
+          onClick={() => { setMenuOpen((o) => !o); setShowNavHint(false); }}
           className="md:hidden fixed top-12 right-3 z-50 flex flex-col items-center justify-center w-10 h-10 bg-black/80 border border-white/15 backdrop-blur-md rounded-md active:scale-95 transition-transform"
           aria-label="Toggle navigation menu"
           aria-expanded={menuOpen}
@@ -80,6 +86,25 @@ export default function TerminalLayout({
           <div className={`h-[2px] bg-zinc-300 transition-all duration-200 mt-[3px] overflow-hidden shrink-0 ${menuOpen ? "w-0 opacity-0" : "w-5 opacity-100"}`} />
           <div className={`w-5 h-[2px] bg-zinc-300 transition-transform duration-200 mt-[3px] ${menuOpen ? "-translate-y-[5px] -rotate-45" : ""}`} />
         </button>
+
+        <AnimatePresence>
+          {showNavHint && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden fixed top-[96px] right-3 z-50 pointer-events-none"
+            >
+              <div className="flex flex-col items-center">
+                <div className="w-2 h-2 bg-white/10 rotate-45 -mb-[1px]" />
+                <div className="bg-black/80 border border-white/10 px-2.5 py-1.5 text-[10px] text-white/40 rounded">
+                  Tap to navigate
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <AnimatePresence>
           {menuOpen && (
