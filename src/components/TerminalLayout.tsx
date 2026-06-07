@@ -87,24 +87,16 @@ export default function TerminalLayout({
           <div className={`w-5 h-[2px] bg-zinc-300 transition-transform duration-200 mt-[3px] ${menuOpen ? "-translate-y-[5px] -rotate-45" : ""}`} />
         </button>
 
-        <AnimatePresence>
-          {showNavHint && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden fixed top-[96px] right-3 z-50 pointer-events-none"
-            >
-              <div className="flex flex-col items-center">
-                <div className="w-2 h-2 bg-white/10 rotate-45 -mb-[1px]" />
-                <div className="bg-black/80 border border-white/10 px-2.5 py-1.5 text-[10px] text-white/40 rounded">
-                  Tap to navigate
-                </div>
+        {showNavHint && (
+          <div className="md:hidden fixed top-[98px] right-3 z-[60] pointer-events-none">
+            <div className="flex flex-col items-center">
+              <div className="w-2 h-2 bg-white/30 rotate-45 -mb-[1px]" />
+              <div className="bg-neutral-900 border border-white/25 px-3 py-2 text-[12px] text-white/80">
+                Tap to navigate
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </div>
+        )}
 
         <AnimatePresence>
           {menuOpen && (
