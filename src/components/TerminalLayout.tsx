@@ -89,11 +89,15 @@ export default function TerminalLayout({
 
         {showNavHint && (
           <div className="md:hidden fixed top-[98px] right-3 z-[60] pointer-events-none">
-            <div className="flex flex-col items-center">
-              <div className="w-2 h-2 bg-white/30 rotate-45 -mb-[1px]" />
-              <div className="bg-neutral-900 border border-white/25 px-3 py-2 text-[12px] text-white/80">
+            <div className="flex flex-col items-end">
+              <div className="w-2 h-2 bg-white/30 rotate-45 -mb-[1px] mr-[18px]" />
+              <motion.div
+                animate={{ scale: [1, 1.04, 1] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                className="bg-neutral-900 border border-white/25 px-3 py-2 text-[12px] text-white/80 origin-right"
+              >
                 Tap to navigate
-              </div>
+              </motion.div>
             </div>
           </div>
         )}
