@@ -9,12 +9,30 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    name: "SchedulAir",
+    name: "CODENAME:VGEN",
     description:
-      "This school project introduces a smart scheduling app designed to integrate academic timetables with real-time weather forecasts.",
-    techTags: ["Python", "Django", "HTML", "JavaScript", "CSS"],
-    githubUrl: "https://github.com/ygglue/SchedulAir",
-    screenshot: "/screenshots/schedulair.webp",
+      "Generates voucher PDF sheets from Excel uploads with custom layout profiles, font embedding, and thermal/A4 bond paper output.",
+    techTags: [
+      "TypeScript",
+      "Next.js",
+      "React",
+      "TailwindCSS",
+      "Auth.js",
+      "DrizzleORM",
+      "SQLite",
+    ],
+    githubUrl: "PRIVATE",
+    clickable: false,
+    screenshot: "/screenshots/vgen.webp",
+  },
+  {
+    name: "CODENAME:VGENLEGACY",
+    description:
+      "A Django web application that generates professional voucher PDFs from Excel files with a stunning dark glassmorphism UI.",
+    techTags: ["Python", "Django", "HTML", "CSS", "JavaScript"],
+    githubUrl: "PRIVATE",
+    clickable: false,
+    screenshot: "/screenshots/vgenlegacy.webp",
   },
   {
     name: "CODENAME:SCHOLARMS",
@@ -26,13 +44,12 @@ export const projects: Project[] = [
     screenshot: "/screenshots/scholarms.webp",
   },
   {
-    name: "CODENAME:VGEN",
+    name: "SchedulAir",
     description:
-      "A Django web application that generates professional voucher PDFs from Excel files with a stunning dark glassmorphism UI.",
-    techTags: ["Python", "Django", "HTML", "CSS", "JavaScript"],
-    githubUrl: "PRIVATE",
-    clickable: false,
-    screenshot: "/screenshots/vgen.webp",
+      "This school project introduces a smart scheduling app designed to integrate academic timetables with real-time weather forecasts.",
+    techTags: ["Python", "Django", "HTML", "JavaScript", "CSS"],
+    githubUrl: "https://github.com/ygglue/SchedulAir",
+    screenshot: "/screenshots/schedulair.webp",
   },
   {
     name: "███████████",
