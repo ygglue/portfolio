@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { commands } from "@/data/commands";
+import { useSectionAnimation } from "@/hooks/useSectionAnimation";
 
 const command = commands.find((c) => c.path === "/")!;
 const COMMAND = "$ " + command.cmd;
@@ -13,34 +14,12 @@ const LINE_2 = "YGGLUE.";
 const NAME_TEXT = "Eliyahu Lagumbay";
 
 export default function HeroSection() {
-  const [phase, setPhase] = useState<"command" | "header" | "content">(
-    "command",
-  );
-  const [commandText, setCommandText] = useState("");
+  const { ref, phase, commandText } = useSectionAnimation(COMMAND);
+
   const [line1, setLine1] = useState("");
   const [line1b, setLine1b] = useState("");
   const [line2, setLine2] = useState("");
   const [showName, setShowName] = useState(false);
-
-  useEffect(() => {
-    if (phase !== "command") return;
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setCommandText(COMMAND.slice(0, i));
-      if (i >= COMMAND.length) {
-        clearInterval(interval);
-        setTimeout(() => setPhase("header"), 300);
-      }
-    }, 50);
-    return () => clearInterval(interval);
-  }, [phase]);
-
-  useEffect(() => {
-    if (phase !== "header") return;
-    const timer = setTimeout(() => setPhase("content"), 200);
-    return () => clearTimeout(timer);
-  }, [phase]);
 
   useEffect(() => {
     if (phase !== "content") return;
@@ -68,15 +47,15 @@ export default function HeroSection() {
                   setLine2(LINE_2.slice(0, k));
                   if (k >= LINE_2.length) {
                     clearInterval(typeLine2);
-                    timers.push(setTimeout(() => setShowName(true), 150));
+                    timers.push(setTimeout(() => setShowName(true), 50));
                   }
-                }, 25);
-              }, 150));
+                }, 8);
+              }, 50));
             }
-          }, 25);
-        }, 150));
+          }, 8);
+        }, 50));
       }
-    }, 25);
+    }, 8);
     return () => {
       cancelled = true;
       clearInterval(typeLine1);
@@ -87,7 +66,7 @@ export default function HeroSection() {
   const allTyped = showName;
 
   return (
-    <>
+    <section ref={ref}>
       <div className="font-mono text-sm md:text-base mb-6">
         {commandText}
         {phase === "command" && (
@@ -95,7 +74,7 @@ export default function HeroSection() {
         )}
       </div>
 
-      {phase !== "command" && (
+      {phase !== "idle" && phase !== "command" && (
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -179,6 +158,6 @@ export default function HeroSection() {
           </div>
         </motion.div>
       )}
-    </>
+    </section>
   );
 }
