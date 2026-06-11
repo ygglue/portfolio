@@ -31,15 +31,15 @@ export function useSectionAnimation(commandString: string) {
       setCommandText(commandString.slice(0, i));
       if (i >= commandString.length) {
         clearInterval(interval);
-        setTimeout(() => setPhase("header"), 300);
+        setTimeout(() => setPhase("header"), 80);
       }
-    }, 50);
+    }, 15);
     return () => clearInterval(interval);
   }, [phase, commandString]);
 
   useEffect(() => {
     if (phase !== "header") return;
-    const timer = setTimeout(() => setPhase("content"), 500);
+    const timer = setTimeout(() => setPhase("content"), 100);
     return () => clearTimeout(timer);
   }, [phase]);
 

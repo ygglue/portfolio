@@ -46,9 +46,9 @@ export default function PongGame() {
       setIntroText(cmd.slice(0, i));
       if (i >= cmd.length) {
         clearInterval(interval);
-        setTimeout(() => setIntroDone(true), 400);
+        setTimeout(() => setIntroDone(true), 100);
       }
-    }, 50);
+    }, 15);
     return () => clearInterval(interval);
   }, []);
 
