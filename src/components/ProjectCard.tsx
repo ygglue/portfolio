@@ -46,6 +46,8 @@ export default function ProjectCard({ project }: { project: Project }) {
             src={project.screenshot}
             alt={project.name}
             className="w-full h-full object-cover pointer-events-none"
+            loading="lazy"
+            decoding="async"
           />
         </button>
       ) : (
