@@ -65,7 +65,7 @@ export default function HeroSection() {
               </Link>
               <Link
                 href="/contact"
-                className="px-6 py-2 border border-white/25 text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors inline-block text-center"
+                className="px-6 py-2 border border-[rgba(255,255,255,0.25)] text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors inline-block text-center"
               >
                 Contact
               </Link>
