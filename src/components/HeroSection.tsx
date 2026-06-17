@@ -59,7 +59,7 @@ export default function HeroSection() {
             <div className="flex gap-4">
               <Link
                 href="/projects"
-                className="px-6 py-2 bg-white text-black text-xs font-bold uppercase tracking-widest hover:bg-neutral-200 transition-colors inline-block text-center"
+                className="px-6 py-2 text-black text-xs font-bold uppercase tracking-widest hover:bg-neutral-200 transition-colors inline-block text-center bg-[linear-gradient(110deg,white_30%,rgba(255,255,255,0.6)_50%,white_70%)] bg-[length:200%_100%] animate-shimmer"
               >
                 View Projects
               </Link>

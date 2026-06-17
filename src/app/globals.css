@@ -15,6 +15,7 @@
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
     --animate-blink: blink 1s steps(2) infinite;
+    --animate-shimmer: shimmer 3s ease-in-out infinite;
 }
 
 * {
@@ -31,6 +32,11 @@ body {
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 /* Terminal-style scrollbar */
