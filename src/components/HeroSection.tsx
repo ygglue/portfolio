@@ -38,7 +38,7 @@ export default function HeroSection() {
           </h2>
 
           <p className="text-[11px] md:text-sm opacity-40 tracking-widest uppercase mt-0.5 mb-12">
-            Eliyahu Lagumbay
+            or Ygglue (ig-loo)
           </p>
         </motion.div>
       )}
