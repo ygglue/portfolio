@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { commands } from "@/data/commands";
@@ -8,62 +8,9 @@ import { useSectionAnimation } from "@/hooks/useSectionAnimation";
 
 const command = commands.find((c) => c.path === "/")!;
 const COMMAND = "$ " + command.cmd;
-const LINE_1 = "HELLO, WORLD!";
-const LINE_1B = "MY NAME IS";
-const LINE_2 = "YGGLUE.";
-const NAME_TEXT = "Eliyahu Lagumbay";
 
 export default function HeroSection() {
   const { ref, phase, commandText } = useSectionAnimation(COMMAND);
-
-  const [line1, setLine1] = useState("");
-  const [line1b, setLine1b] = useState("");
-  const [line2, setLine2] = useState("");
-  const [showName, setShowName] = useState(false);
-
-  useEffect(() => {
-    if (phase !== "content") return;
-    let cancelled = false;
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    let i = 0;
-    const typeLine1 = setInterval(() => {
-      i++;
-      setLine1(LINE_1.slice(0, i));
-      if (i >= LINE_1.length) {
-        clearInterval(typeLine1);
-        timers.push(setTimeout(() => {
-          if (cancelled) return;
-          let j = 0;
-          const typeLine1b = setInterval(() => {
-            j++;
-            setLine1b(LINE_1B.slice(0, j));
-            if (j >= LINE_1B.length) {
-              clearInterval(typeLine1b);
-              timers.push(setTimeout(() => {
-                if (cancelled) return;
-                let k = 0;
-                const typeLine2 = setInterval(() => {
-                  k++;
-                  setLine2(LINE_2.slice(0, k));
-                  if (k >= LINE_2.length) {
-                    clearInterval(typeLine2);
-                    timers.push(setTimeout(() => setShowName(true), 50));
-                  }
-                }, 8);
-              }, 50));
-            }
-          }, 8);
-        }, 50));
-      }
-    }, 8);
-    return () => {
-      cancelled = true;
-      clearInterval(typeLine1);
-      timers.forEach(clearTimeout);
-    };
-  }, [phase]);
-
-  const allTyped = showName;
 
   return (
     <section ref={ref}>
@@ -74,7 +21,7 @@ export default function HeroSection() {
         )}
       </div>
 
-      {phase !== "idle" && phase !== "command" && (
+      {phase === "content" && (
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -85,30 +32,23 @@ export default function HeroSection() {
           </div>
 
           <h2 className="text-4xl md:text-7xl font-bold leading-[1.1] tracking-tight">
-            <div>{line1}</div>
-            <div>{line1b}</div>
-            <div className="relative">
-              {line2}
-              {phase === "content" && line2.length < LINE_2.length && (
-                <span className="inline-block w-[2px] h-[0.8em] bg-white ml-2 animate-blink align-middle" />
-              )}
-            </div>
+            <div>HELLO, WORLD!</div>
+            <div>MY NAME IS</div>
+            <div>ELI.</div>
           </h2>
 
-          {showName && (
-            <p className="text-[11px] md:text-sm opacity-40 tracking-widest uppercase mt-0.5 mb-12">
-              {NAME_TEXT}
-            </p>
-          )}
+          <p className="text-[11px] md:text-sm opacity-40 tracking-widest uppercase mt-0.5 mb-12">
+            Eliyahu Lagumbay
+          </p>
         </motion.div>
       )}
 
-      {allTyped && (
+      {phase === "content" && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-12"
+          className="space-y-6"
         >
           <div className="space-y-6">
             <p className="text-lg md:text-xl opacity-70 leading-relaxed">
@@ -130,31 +70,6 @@ export default function HeroSection() {
                 Contact
               </Link>
             </div>
-          </div>
-
-          <div className="border-l border-white/10 pl-8 space-y-4 hidden md:block">
-            <div className="text-[10px] opacity-30 uppercase tracking-[0.2em] mb-4">
-              Core_Stack
-            </div>
-            {[
-              "Next.js 16",
-              "TypeScript",
-              "Rust",
-              "Tailwind",
-              "Framer Motion",
-            ].map((tech) => (
-              <div
-                key={tech}
-                className="flex justify-between items-center group"
-              >
-                <span className="text-xs opacity-60 group-hover:opacity-100 transition-opacity tracking-wider">
-                  {tech}
-                </span>
-                <span className="text-[10px] opacity-20 group-hover:opacity-100 transition-opacity">
-                  OK
-                </span>
-              </div>
-            ))}
           </div>
         </motion.div>
       )}
