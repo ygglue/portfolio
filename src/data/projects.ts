@@ -9,6 +9,24 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    name: "KR8 Labs",
+    description:
+      "Studio site for an independent software agency — capabilities, selected client work, and a multi-step pricing estimator, wrapped in WebGL and canvas particle effects.",
+    techTags: ["Vite", "JavaScript", "CSS", "WebGL", "Canvas", "Cloudflare"],
+    projectUrl: "https://kr8labs.com",
+    clickable: true,
+    screenshot: "/screenshots/kr8labs.webp",
+  },
+  {
+    name: "Naprey Almario",
+    description:
+      "A personal brand and advocacy site for a Filipino disability inclusion champion and accessible-travel advocate, bringing his story, recognitions, and work into one place.",
+    techTags: ["Astro", "HTML", "CSS", "Cloudflare"],
+    projectUrl: "https://napreyalmario.online",
+    clickable: true,
+    screenshot: "/screenshots/napreyalmario.webp",
+  },
+  {
     name: "CODENAME:VGEN",
     description:
       "Generates voucher PDF sheets from Excel uploads with custom layout profiles, font embedding, and thermal/A4 bond paper output.",
