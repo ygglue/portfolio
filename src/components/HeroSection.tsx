@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { commands } from "@/data/commands";
 import { useSectionAnimation } from "@/hooks/useSectionAnimation";
+import PortraitReveal from "./PortraitReveal";
 
 const command = commands.find((c) => c.path === "/")!;
 const COMMAND = "$ " + command.cmd;
@@ -21,58 +22,85 @@ export default function HeroSection() {
         )}
       </div>
 
-      {phase === "content" && (
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-        >
-          <div className="mb-4 text-[10px] md:text-xs opacity-40 tracking-[0.3em] uppercase">
-            [ 00_INITIALIZING_SEQUENCE ]
-          </div>
+      <div className="md:grid md:grid-cols-[1fr_auto] md:items-center md:gap-10">
+        <div>
+          {phase === "content" && (
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
+              <div className="mb-4 text-[10px] md:text-xs opacity-40 tracking-[0.3em] uppercase">
+                [ 00_INITIALIZING_SEQUENCE ]
+              </div>
 
-          <h2 className="text-4xl md:text-7xl font-bold leading-[1.1] tracking-tight">
-            <div>HELLO, WORLD!</div>
-            <div>MY NAME IS</div>
-            <div>ELI.</div>
-          </h2>
+              <h2 className="text-4xl md:text-7xl font-bold leading-[1.1] tracking-tight">
+                <div>HELLO, WORLD!</div>
+                <div>MY NAME IS</div>
+                <div>ELI.</div>
+              </h2>
 
-          <p className="text-[11px] md:text-sm opacity-40 tracking-widest uppercase mt-0.5 mb-12">
-            or Ygglue (ig-loo)
-          </p>
-        </motion.div>
-      )}
+              <p className="text-[11px] md:text-sm opacity-40 tracking-widest uppercase mt-0.5 mb-10 md:mb-12">
+                or Ygglue (ig-loo)
+              </p>
+            </motion.div>
+          )}
 
-      {phase === "content" && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="space-y-6"
-        >
-          <div className="space-y-6">
-            <p className="text-lg md:text-xl opacity-70 leading-relaxed">
-              Welcome to my terminal. I am a software engineer based in
-              Palawan, Philippines, focused on high-performance systems,
-              developer tooling, and AI-native workflows.
-            </p>
-            <div className="flex gap-4">
-              <Link
-                href="/projects"
-                className="px-6 py-2 text-black text-xs font-bold uppercase tracking-widest hover:bg-neutral-200 transition-colors inline-block text-center bg-[linear-gradient(110deg,white_30%,rgba(255,255,255,0.6)_50%,white_70%)] bg-[length:200%_100%] animate-shimmer"
-              >
-                View Projects
-              </Link>
-              <Link
-                href="/contact"
-                className="px-6 py-2 border border-[rgba(255,255,255,0.25)] text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors inline-block text-center"
-              >
-                Contact
-              </Link>
-            </div>
-          </div>
-        </motion.div>
-      )}
+          {phase === "content" && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-6 md:block md:space-y-6"
+            >
+              {/* nowrap spans stop the browser breaking these compounds at
+                  their hyphens, which otherwise leaves "high-" and "AI-"
+                  dangling at the end of a line. */}
+              <p className="col-start-1 row-start-1 self-center text-pretty text-sm md:text-xl opacity-70 leading-relaxed">
+                Welcome to my terminal. I am a software engineer based in
+                Palawan, Philippines, focused on{" "}
+                <span className="whitespace-nowrap">high-performance</span>{" "}
+                systems, developer tooling, and{" "}
+                <span className="whitespace-nowrap">AI-native</span> workflows.
+              </p>
+
+              {/* Mobile only: shares the bio's row so the portrait shows its
+                  full height without cropping or pushing the hero off-screen.
+                  Desktop uses the side column below instead. */}
+              <div className="col-start-2 row-start-1 w-[118px] self-center md:hidden">
+                <PortraitReveal />
+              </div>
+
+              <div className="col-span-2 col-start-1 row-start-2 flex gap-4 self-start">
+                <Link
+                  href="/projects"
+                  className="px-6 py-2 text-black text-xs font-bold uppercase tracking-widest hover:bg-neutral-200 transition-colors inline-block text-center bg-[linear-gradient(110deg,white_30%,rgba(255,255,255,0.6)_50%,white_70%)] bg-[length:200%_100%] animate-shimmer"
+                >
+                  View Projects
+                </Link>
+                <Link
+                  href="/contact"
+                  className="px-6 py-2 border border-[rgba(255,255,255,0.25)] text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors inline-block text-center"
+                >
+                  Contact
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </div>
+
+        {/* Desktop only: sits beside the entire text block, as before. */}
+        {phase === "content" && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+            className="hidden md:block md:w-[280px]"
+          >
+            <PortraitReveal />
+          </motion.div>
+        )}
+      </div>
     </section>
   );
 }
