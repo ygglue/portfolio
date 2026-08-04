@@ -15,7 +15,20 @@ const FADE_MS = 700;
 const TOGGLE_MS = 240;
 const WAVE_MS_PER_CELL = 38;
 
+// Touch devices get no hover trail, so the portrait would sit there with no
+// sign that it responds to anything. Once it has settled in, ripple a few
+// squares open and let them fade back — demonstrating the tap rather than
+// labelling it. Runs once, and never on pointers that can hover.
+const HINT_DELAY_MS = 900;
+const HINT_WAVE_MS_PER_CELL = 45;
+// Kept short of the full grid so it reads as a hint, not a self-toggle.
+const HINT_RADIUS = 3.5;
+
 const easeOut = (p: number) => 1 - (1 - p) * (1 - p);
+
+// Corner squares of the transform frame, offset by half their size so they
+// straddle the border the way a design tool's resize handles do.
+const HANDLE = "absolute h-1.5 w-1.5 bg-white";
 
 // Must match the object-position on the lit <img> below, so that if the frame
 // ever differs from the image's aspect ratio the canvas crops the shadow the
@@ -52,12 +65,23 @@ export default function PortraitReveal() {
     let toggling = false;
     let isLit = false;
 
+    // One-shot tap hint. Tracks which squares it has already opened so each
+    // fires once as the ripple passes, then decays on the normal trail fade.
+    const hintFired = new Uint8Array(CELL_COUNT);
+    let hintOrigin = 0;
+    let hintStart = 0;
+    let hinting = false;
+    let hintTimer = 0;
+
     let img: HTMLImageElement | null = null;
     let w = 0;
     let h = 0;
     let raf = 0;
     let last = 0;
     let running = false;
+    // The image's onload can land after cleanup, which would restart the loop
+    // and leave a second closure drawing to this same canvas.
+    let disposed = false;
 
     const render = () => {
       ctx.clearRect(0, 0, w, h);
@@ -94,6 +118,7 @@ export default function PortraitReveal() {
     };
 
     const tick = (t: number) => {
+      if (disposed) return;
       const dt = last ? t - last : 16;
       last = t;
       let alive = false;
@@ -123,6 +148,28 @@ export default function PortraitReveal() {
         else alive = true;
       }
 
+      if (hinting) {
+        const elapsed = t - hintStart;
+        const oc = hintOrigin % COLS;
+        const or = Math.floor(hintOrigin / COLS);
+        let pending = false;
+
+        for (let i = 0; i < CELL_COUNT; i++) {
+          if (hintFired[i]) continue;
+          const d = Math.hypot((i % COLS) - oc, Math.floor(i / COLS) - or);
+          if (d > HINT_RADIUS) continue;
+          if (elapsed >= d * HINT_WAVE_MS_PER_CELL) {
+            hintFired[i] = 1;
+            alphas[i] = 1;
+          } else {
+            pending = true;
+          }
+        }
+
+        if (pending) alive = true;
+        else hinting = false;
+      }
+
       render();
 
       if (alive) {
@@ -134,7 +181,7 @@ export default function PortraitReveal() {
     };
 
     const start = () => {
-      if (running) return;
+      if (running || disposed) return;
       running = true;
       last = 0;
       raf = requestAnimationFrame(tick);
@@ -187,11 +234,31 @@ export default function PortraitReveal() {
     };
 
     const image = new Image();
-    image.src = "/portrait_shadow.webp";
-    image.onload = () => {
+    let imageReady = false;
+
+    const onImageReady = () => {
+      if (disposed || imageReady) return;
+      imageReady = true;
       img = image;
       render();
+
+      // Only where there's no hover trail to discover, and never when the
+      // viewer has asked for reduced motion.
+      if (!canHover && !reduced) {
+        hintTimer = window.setTimeout(() => {
+          hintOrigin = Math.floor(ROWS / 2) * COLS + Math.floor(COLS / 2);
+          hintStart = performance.now();
+          hinting = true;
+          start();
+        }, HINT_DELAY_MS);
+      }
     };
+
+    image.onload = onImageReady;
+    image.src = "/portrait_shadow.webp";
+    // On a refresh the image comes from cache and can already be complete
+    // before onload is wired up, in which case that event never fires.
+    if (image.complete && image.naturalWidth > 0) onImageReady();
 
     resize();
     const ro = new ResizeObserver(resize);
@@ -200,36 +267,52 @@ export default function PortraitReveal() {
     if (canHover) canvas.addEventListener("pointermove", onMove);
 
     return () => {
+      disposed = true;
       ro.disconnect();
       button.removeEventListener("click", onClick);
       canvas.removeEventListener("pointermove", onMove);
       cancelAnimationFrame(raf);
+      clearTimeout(hintTimer);
     };
   }, []);
 
   return (
-    <button
-      ref={buttonRef}
-      type="button"
-      aria-pressed={lit}
-      aria-label="Toggle portrait lighting"
-      className="relative block w-full aspect-[768/1169] overflow-hidden cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/portrait_light.webp"
-        alt="Portrait of Eli"
-        className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
-        loading="eager"
-        fetchPriority="high"
-        decoding="async"
-      />
+    <div className="relative">
+      <button
+        ref={buttonRef}
+        type="button"
+        aria-pressed={lit}
+        aria-label="Toggle portrait lighting"
+        className="relative block w-full aspect-[768/1169] overflow-hidden cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/portrait_light.webp"
+          alt="Portrait of Eli"
+          className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+        />
 
-      <canvas
-        ref={canvasRef}
+        <canvas
+          ref={canvasRef}
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full"
+        />
+      </button>
+
+      {/* Transform-handle frame. It sits outside the button because the button
+          clips its overflow, which would cut the corner squares in half. */}
+      <div
         aria-hidden="true"
-        className="absolute inset-0 w-full h-full"
-      />
-    </button>
+        className="pointer-events-none absolute inset-0 border border-white/25"
+      >
+        <span className={`${HANDLE} -left-[3px] -top-[3px]`} />
+        <span className={`${HANDLE} -right-[3px] -top-[3px]`} />
+        <span className={`${HANDLE} -bottom-[3px] -left-[3px]`} />
+        <span className={`${HANDLE} -bottom-[3px] -right-[3px]`} />
+      </div>
+    </div>
   );
 }
