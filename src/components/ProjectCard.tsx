@@ -39,19 +39,19 @@ export default function ProjectCard({ project }: { project: Project }) {
             e.stopPropagation();
             setLightboxOpen(true);
           }}
-          className="w-full h-48 border-b border-white/15 cursor-zoom-in p-0 block"
+          className="w-full aspect-[16/9] border-b border-white/15 cursor-zoom-in p-0 block"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={project.screenshot}
             alt={project.name}
-            className="w-full h-full object-cover pointer-events-none"
+            className="w-full h-full object-contain pointer-events-none"
             loading="lazy"
             decoding="async"
           />
         </button>
       ) : (
-        <div className="h-48 flex items-center justify-center border-b border-white/15 bg-neutral-950">
+        <div className="aspect-[16/9] flex items-center justify-center border-b border-white/15 bg-neutral-950">
           <span className="text-white/10 text-xs">[CONFIDENTIAL]</span>
         </div>
       )}
@@ -77,12 +77,12 @@ export default function ProjectCard({ project }: { project: Project }) {
           href={project.projectUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block font-mono border border-white/15 hover:border-white/30 transition-colors group cursor-pointer"
+          className="block font-mono border border-white/15 bg-white/[0.05] backdrop-blur-md hover:border-white/30 hover:bg-white/[0.08] transition-colors group cursor-pointer"
         >
           {inner}
         </a>
       ) : (
-        <div className="block font-mono border border-white/15 transition-colors group cursor-default">
+        <div className="block font-mono border border-white/15 bg-white/[0.05] backdrop-blur-md transition-colors group cursor-default">
           {inner}
         </div>
       )}

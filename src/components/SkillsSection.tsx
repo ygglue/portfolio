@@ -22,6 +22,10 @@ const STATUS_RANK: Record<SkillStatus, number> = {
   LEARNING: 2,
 };
 
+// Shared so every tile reads at the same scale regardless of its span.
+const ICON_SIZE = 20;
+const LABEL_CLASS = "font-mono text-sm truncate";
+
 export default function SkillsSection() {
   const { ref, phase, commandText } = useSectionAnimation(COMMAND);
 
@@ -85,12 +89,12 @@ export default function SkillsSection() {
                           className="col-span-2 row-span-2 flex flex-col justify-between p-3 border border-white/15 bg-white/[0.07] backdrop-blur-md hover:border-green-400/40 hover:bg-white/[0.11] transition-colors"
                         >
                           <div className="flex items-start justify-between">
-                            <TechIcon name={skill.icon} size={26} />
+                            <TechIcon name={skill.icon} size={ICON_SIZE} />
                             <span className="font-mono text-[8px] tracking-[0.2em] text-green-400/60">
                               ACTIVE
                             </span>
                           </div>
-                          <span className="font-mono text-sm text-zinc-100 truncate">
+                          <span className={`${LABEL_CLASS} text-zinc-100`}>
                             {skill.name}
                           </span>
                         </div>
@@ -104,8 +108,8 @@ export default function SkillsSection() {
                           title={title}
                           className="row-span-2 flex flex-col justify-between p-2.5 border border-white/10 bg-white/[0.05] backdrop-blur-md hover:border-white/25 hover:bg-white/[0.08] transition-colors"
                         >
-                          <TechIcon name={skill.icon} size={18} />
-                          <span className="font-mono text-[11px] text-zinc-300 truncate">
+                          <TechIcon name={skill.icon} size={ICON_SIZE} />
+                          <span className={`${LABEL_CLASS} text-zinc-300`}>
                             {skill.name}
                           </span>
                         </div>
@@ -118,8 +122,8 @@ export default function SkillsSection() {
                         title={title}
                         className="flex items-center gap-1.5 px-2 border border-white/[0.07] bg-white/[0.03] backdrop-blur-md hover:border-white/20 hover:bg-white/[0.06] transition-colors"
                       >
-                        <TechIcon name={skill.icon} size={13} />
-                        <span className="font-mono text-[10px] text-zinc-500 truncate">
+                        <TechIcon name={skill.icon} size={ICON_SIZE} />
+                        <span className={`${LABEL_CLASS} min-w-0 text-zinc-500`}>
                           {skill.name}
                         </span>
                       </div>

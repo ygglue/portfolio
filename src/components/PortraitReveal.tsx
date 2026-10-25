@@ -8,7 +8,7 @@ const COLS = 8;
 const ROWS = 12;
 const CELL_COUNT = COLS * ROWS;
 
-// Hover trail: how long a revealed square takes to fade back to shadow.
+// Hover trail: how long a shadowed square takes to fade back to the lit portrait.
 const FADE_MS = 700;
 // Click toggle: how long one square takes to fade in/out, and how much later
 // each successive ring of squares starts, so the change ripples outward.
@@ -17,8 +17,8 @@ const WAVE_MS_PER_CELL = 38;
 
 // Touch devices get no hover trail, so the portrait would sit there with no
 // sign that it responds to anything. Once it has settled in, ripple a few
-// squares open and let them fade back — demonstrating the tap rather than
-// labelling it. Runs once, and never on pointers that can hover.
+// squares back into shadow and let them fade open again — demonstrating the
+// tap rather than labelling it. Runs once, and never on pointers that can hover.
 const HINT_DELAY_MS = 900;
 const HINT_WAVE_MS_PER_CELL = 45;
 // Kept short of the full grid so it reads as a hint, not a self-toggle.
@@ -37,7 +37,7 @@ const FOCUS_X = 0.5;
 const FOCUS_Y = 0.5;
 
 export default function PortraitReveal() {
-  const [lit, setLit] = useState(false);
+  const [lit, setLit] = useState(true);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -52,21 +52,23 @@ export default function PortraitReveal() {
     const canHover = window.matchMedia("(hover: hover)").matches;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Hover trail: per-square opacity, decaying over FADE_MS.
-    const alphas = new Float32Array(CELL_COUNT);
     // Click toggle: per-square reveal amount, animated as a wave. Squares fade
-    // at full size, so 0 = shadow and 1 = fully punched through.
-    const toggle = new Float32Array(CELL_COUNT);
+    // at full size, so 0 = shadow and 1 = fully punched through. Starts fully
+    // revealed; tapping paints the shadow back.
+    const toggle = new Float32Array(CELL_COUNT).fill(1);
     const toggleFrom = new Float32Array(CELL_COUNT);
+    // Hover trail and tap hint: per-square amount painted back into shadow,
+    // decaying to the revealed state over FADE_MS.
+    const hides = new Float32Array(CELL_COUNT);
 
     let toggleOrigin = 0;
     let toggleTarget = 0;
     let toggleStart = 0;
     let toggling = false;
-    let isLit = false;
+    let isLit = true;
 
-    // One-shot tap hint. Tracks which squares it has already opened so each
-    // fires once as the ripple passes, then decays on the normal trail fade.
+    // One-shot tap hint. Tracks which squares it has already shadowed so each
+    // fires once as the ripple passes, then fades back open.
     const hintFired = new Uint8Array(CELL_COUNT);
     let hintOrigin = 0;
     let hintStart = 0;
@@ -104,9 +106,9 @@ export default function PortraitReveal() {
       const ch = h / ROWS;
 
       for (let i = 0; i < CELL_COUNT; i++) {
-        // Whichever source reveals the square more wins. Punching twice would
-        // compound the two alphas into a stronger erase than either asked for.
-        const a = Math.max(toggle[i], alphas[i]);
+        // Toggle state minus whatever shadow the hover trail or hint has
+        // painted back over it.
+        const a = Math.max(0, toggle[i] - hides[i]);
         if (a <= 0) continue;
         ctx.globalAlpha = a;
         // Slight overshoot so neighbouring holes can't leave a hairline.
@@ -124,9 +126,9 @@ export default function PortraitReveal() {
       let alive = false;
 
       for (let i = 0; i < CELL_COUNT; i++) {
-        if (alphas[i] <= 0) continue;
-        alphas[i] = reduced ? 0 : Math.max(0, alphas[i] - dt / FADE_MS);
-        if (alphas[i] > 0) alive = true;
+        if (hides[i] <= 0) continue;
+        hides[i] = reduced ? 0 : Math.max(0, hides[i] - dt / FADE_MS);
+        if (hides[i] > 0) alive = true;
       }
 
       if (toggling) {
@@ -160,7 +162,7 @@ export default function PortraitReveal() {
           if (d > HINT_RADIUS) continue;
           if (elapsed >= d * HINT_WAVE_MS_PER_CELL) {
             hintFired[i] = 1;
-            alphas[i] = 1;
+            hides[i] = 1;
           } else {
             pending = true;
           }
@@ -198,7 +200,7 @@ export default function PortraitReveal() {
     const onMove = (e: PointerEvent) => {
       const i = cellAt(e.clientX, e.clientY);
       if (i < 0) return;
-      alphas[i] = 1;
+      hides[i] = 1;
       render();
       start();
     };
