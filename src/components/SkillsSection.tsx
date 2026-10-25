@@ -86,7 +86,7 @@ export default function SkillsSection() {
                         <div
                           key={skill.name}
                           title={title}
-                          className="col-span-2 row-span-2 flex flex-col justify-between p-3 border border-white/15 bg-white/[0.07] backdrop-blur-md hover:border-green-400/40 hover:bg-white/[0.11] transition-colors"
+                          className="col-span-2 row-span-2 flex flex-col justify-between p-3 border border-white/15 bg-white/[0.07] hover:border-green-400/40 hover:bg-white/[0.11] transition-colors"
                         >
                           <div className="flex items-start justify-between">
                             <TechIcon name={skill.icon} size={ICON_SIZE} />
@@ -106,7 +106,7 @@ export default function SkillsSection() {
                         <div
                           key={skill.name}
                           title={title}
-                          className="row-span-2 flex flex-col justify-between p-2.5 border border-white/10 bg-white/[0.05] backdrop-blur-md hover:border-white/25 hover:bg-white/[0.08] transition-colors"
+                          className="row-span-2 flex flex-col justify-between p-2.5 border border-white/10 bg-white/[0.05] hover:border-white/25 hover:bg-white/[0.08] transition-colors"
                         >
                           <TechIcon name={skill.icon} size={ICON_SIZE} />
                           <span className={`${LABEL_CLASS} text-zinc-300`}>
@@ -120,7 +120,7 @@ export default function SkillsSection() {
                       <div
                         key={skill.name}
                         title={title}
-                        className="flex items-center gap-1.5 px-2 border border-white/[0.07] bg-white/[0.03] backdrop-blur-md hover:border-white/20 hover:bg-white/[0.06] transition-colors"
+                        className="flex items-center gap-1.5 px-2 border border-white/[0.07] bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06] transition-colors"
                       >
                         <TechIcon name={skill.icon} size={ICON_SIZE} />
                         <span className={`${LABEL_CLASS} min-w-0 text-zinc-500`}>

@@ -190,7 +190,9 @@ export default function LiquidBackground() {
     const isMobile = window.innerWidth < 768 || "ontouchstart" in window;
     const MAX_FPS = 30;
     const frameInterval = 1000 / MAX_FPS;
-    const dprCap = isMobile ? 1.5 : 2;
+    // Soft, slow-moving gradient: a reduced buffer is visually identical and
+    // saves a large amount of fragment work on high-DPI displays.
+    const dprCap = isMobile ? 1 : 1.5;
 
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -216,10 +218,11 @@ export default function LiquidBackground() {
 
     const u = (name: string) => gl.getUniformLocation(program, name);
 
+    let renderDpr = 1;
     const handleResize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, dprCap);
-      canvas.width = canvas.clientWidth * dpr;
-      canvas.height = canvas.clientHeight * dpr;
+      renderDpr = Math.min(window.devicePixelRatio || 1, dprCap);
+      canvas.width = canvas.clientWidth * renderDpr;
+      canvas.height = canvas.clientHeight * renderDpr;
       gl.viewport(0, 0, canvas.width, canvas.height);
     };
 
@@ -263,7 +266,7 @@ export default function LiquidBackground() {
 
       gl.uniform1f(u("u_time"), totalTime);
       gl.uniform2f(u("u_resolution"), canvas.width, canvas.height);
-      gl.uniform1f(u("u_pixelRatio"), window.devicePixelRatio || 1);
+      gl.uniform1f(u("u_pixelRatio"), renderDpr);
       gl.uniform1f(u("u_scale"), MIST.scale);
       gl.uniform1f(u("u_rotation"), MIST.rotation);
       gl.uniform4fv(u("u_color1"), MIST.color1);
