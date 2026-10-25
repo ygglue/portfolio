@@ -71,16 +71,16 @@ export default function HeroSection() {
                 <PortraitReveal />
               </div>
 
-              <div className="col-span-2 col-start-1 row-start-2 flex gap-4 self-start">
+              <div className="col-span-2 col-start-1 row-start-2 mt-3 flex w-full gap-4 self-start md:mt-0">
                 <Link
                   href="/projects"
-                  className="px-6 py-2 text-black text-xs font-bold uppercase tracking-widest hover:bg-neutral-200 transition-colors inline-block text-center bg-[linear-gradient(110deg,white_30%,rgba(255,255,255,0.6)_50%,white_70%)] bg-[length:200%_100%] animate-shimmer"
+                  className="flex-1 px-6 py-3 text-black text-xs font-bold uppercase tracking-widest hover:bg-neutral-200 transition-colors inline-block text-center bg-[linear-gradient(110deg,white_30%,rgba(255,255,255,0.6)_50%,white_70%)] bg-[length:200%_100%] animate-shimmer md:flex-none md:py-2"
                 >
                   View Projects
                 </Link>
                 <Link
                   href="/contact"
-                  className="px-6 py-2 border border-[rgba(255,255,255,0.25)] text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors inline-block text-center"
+                  className="flex-1 px-6 py-3 border border-[rgba(255,255,255,0.25)] text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors inline-block text-center md:flex-none md:py-2"
                 >
                   Contact
                 </Link>
