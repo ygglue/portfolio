@@ -49,7 +49,7 @@ export default function ContactSection() {
           variants={{
             visible: { transition: { staggerChildren: 0.08 } },
           }}
-          className="space-y-2"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2"
         >
           {contactLinks.map((link, i) => (
             <motion.div
@@ -60,7 +60,7 @@ export default function ContactSection() {
               }}
               transition={{ duration: 0.4, ease: "easeOut" }}
             >
-              <div className="flex items-center border border-zinc-800/60 hover:border-zinc-600 transition-colors">
+              <div className="group relative flex h-full min-h-[160px] md:min-h-[180px] flex-col justify-between border border-white/10 bg-black/40 backdrop-blur-md transition-colors hover:border-white/25 hover:bg-black/30">
                 <a
                   href={link.href}
                   target={link.href.startsWith("mailto") ? undefined : "_blank"}
@@ -69,27 +69,34 @@ export default function ContactSection() {
                       ? undefined
                       : "noopener noreferrer"
                   }
-                  className="flex items-center gap-2 px-2.5 py-3 flex-1 min-w-0"
-                >
-                  <TechIcon name={link.icon} size={18} />
-                  <span className="font-mono text-[11px] md:text-xs text-zinc-500 w-16 shrink-0 uppercase tracking-wider">
+                  aria-label={`${link.label}: ${link.value}`}
+                  className="absolute inset-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/60"
+                />
+
+                <div className="pointer-events-none relative flex items-start justify-between p-4 md:p-5">
+                  <TechIcon name={link.icon} size={28} />
+                  <button
+                    onClick={() => handleCopy(link.value, i)}
+                    className="pointer-events-auto -m-1 p-1 text-zinc-500 hover:text-zinc-200 transition-colors"
+                    title={`Copy ${link.label}`}
+                    aria-label={`Copy ${link.label}`}
+                  >
+                    {copiedIndex === i ? (
+                      <Check size={16} className="text-green-400" />
+                    ) : (
+                      <Copy size={16} />
+                    )}
+                  </button>
+                </div>
+
+                <div className="pointer-events-none relative p-4 pt-0 md:p-5 md:pt-0">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-zinc-500">
                     {link.label}
-                  </span>
-                  <span className="font-mono text-[11px] md:text-xs text-zinc-300">
+                  </div>
+                  <div className="mt-1 font-mono text-xs md:text-sm text-zinc-200 break-all">
                     {link.value}
-                  </span>
-                </a>
-                <button
-                  onClick={() => handleCopy(link.value, i)}
-                  className="px-3 py-3 text-zinc-500 hover:text-zinc-200 hover:bg-zinc-800/40 transition-colors border-l border-zinc-800/60"
-                  title={`Copy ${link.label}`}
-                >
-                  {copiedIndex === i ? (
-                    <Check size={14} className="text-green-400" />
-                  ) : (
-                    <Copy size={14} />
-                  )}
-                </button>
+                  </div>
+                </div>
               </div>
             </motion.div>
           ))}
