@@ -9,6 +9,15 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    name: "Luxury Duo Cleaning",
+    description:
+      "Marketing site for an Orlando cleaning company — six service lines, a validated quote-request form, testimonials, and a Central Florida service-area map, shipped as a fast static Astro build.",
+    techTags: ["Astro", "TypeScript", "TailwindCSS", "Lenis", "Vercel"],
+    projectUrl: "https://lux-duo.vercel.app",
+    clickable: true,
+    screenshot: "/screenshots/luxduo.webp",
+  },
+  {
     name: "KR8 Labs",
     description:
       "Studio site for an independent software agency — capabilities, selected client work, and a multi-step pricing estimator, wrapped in WebGL and canvas particle effects.",
